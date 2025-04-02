@@ -1,6 +1,6 @@
-# Node.js Express Project with Firebase Integration
+# Clean Architecture with Node.js Express Project and Firebase Integration
 
-This project is a simple Node.js application built using Express and Firebase. It requires Firebase configuration to connect to Firebase services.
+This project is a simple Node.js application built using Express and Firebase. Baesed in Clean Architecture. It requires Firebase configuration to connect to Firebase services.
 
 ## Prerequisites
 
