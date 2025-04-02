@@ -1,11 +1,10 @@
 import { UserEntity, UserResponseEntity } from "@domain/entities/users";
 
-export abstract class UserRepository {
-
-  abstract get(): Promise<UserResponseEntity>;
-  abstract create(user: UserEntity): Promise<UserEntity>;
-  abstract update(id: string, user: UserEntity): Promise<UserEntity>;
-  abstract delete(id: string): Promise<UserEntity>;
+export interface UserRepository {
+  get(): Promise<UserResponseEntity>;
+  create(user: UserEntity): Promise<UserEntity>;
+  update(id: string, user: UserEntity): Promise<UserEntity>;
+  delete(id: string): Promise<UserEntity>;
 }
 
 export default UserRepository;

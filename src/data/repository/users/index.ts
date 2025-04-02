@@ -4,11 +4,10 @@ import { UserModel, UserResponseModel } from "@data/models/users";
 import { UserEntity, UserResponseEntity } from "@domain/entities/users";
 import UserRepository from "@domain/repository/users";
 
-export class UserRepositoryImpl extends UserRepository {
+export class UserRepositoryImpl implements UserRepository {
   private dataSource: UserApiDataSource;
 
   constructor() {
-    super();
     this.dataSource = new UserApiDataSource();
   }
 
