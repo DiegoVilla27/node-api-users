@@ -8,19 +8,13 @@
     "paths": {
       "@/*": [
         "src/*"
-      ], // Alias de la raiz
-      "@app/*": [
-        "src/app/*"
-      ], // Alias para la capa app
-      "@data/*": [
-        "src/data/*"
-      ], // Alias para la capa data
-      "@domain/*": [
-        "src/domain/*"
-      ], // Alias para la capa domain
-      "@infrastructure/*": [
-        "src/infrastructure/*"
-      ] // Alias para la capa infrastructure
+      ], // Alias root
+      "@core/*": [
+        "src/core/*"
+      ], // Alias core
+      "@users/*": [
+        "src/features/users/*"
+      ], // Alias user feature
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
     "resolveJsonModule": true, /* Enable importing .json files. */
     "outDir": "./dist", /* Specify an output folder for all emitted files. */

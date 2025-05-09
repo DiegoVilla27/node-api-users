@@ -30,9 +30,7 @@
   },
   "_moduleAliases": {
     "@": "src",
-    "@app": "src/app",
-    "@data": "src/data",
-    "@domain": "src/domain",
-    "@infrastructure": "src/infrastructure"
+    "@core": "src/core",
+    "@users": "src/features/users"
   }
 }

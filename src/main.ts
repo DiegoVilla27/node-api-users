@@ -1,5 +1,5 @@
 import 'module-alias/register';
-import routes from '@infrastructure/routes';
+import routes from '@core/routes';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
