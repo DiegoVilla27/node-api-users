@@ -6,7 +6,7 @@ const COLLECTION_USER: string = "users";
 /**
  * Interface for interacting with the Firebase Firestore data source for user-related operations.
  *
- * This interface defines methods for CRUD (Create, Read, Update, Delete) operations on user data, 
+ * This interface defines methods for CRUD (Create, Read, Update, Delete, Get by ID, Upload Image) operations on user data, 
  * utilizing Firestore's document references and query snapshots.
  *
  * @interface
@@ -16,6 +16,7 @@ export interface UserApiDataSource {
   create(user: UserModel): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
   update(id: string, user: UserModel): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
   delete(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
+  getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>>;
 }
 
 /**
@@ -47,6 +48,11 @@ export class UserApiDataSourceImpl implements UserApiDataSource {
 
   async delete(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
     const snapshot = await db.collection(COLLECTION_USER).doc(id);
+    return snapshot;
+  }
+
+  async getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>> {
+    const snapshot = await db.collection(COLLECTION_USER).doc(id).get();
     return snapshot;
   }
 }

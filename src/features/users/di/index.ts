@@ -4,6 +4,7 @@ import { CreateUserUseCase } from "@users/domain/usecases/create";
 import { DeleteUserUseCase } from "@users/domain/usecases/delete";
 import { GetUsersUseCase } from "@users/domain/usecases/get";
 import { UpdateUserUseCase } from "@users/domain/usecases/update";
+import { GetByIdUserUseCase } from "@users/domain/usecases/get_by_id";
 
 /**
  * Dependency injection container for user-related use cases.
@@ -16,6 +17,7 @@ import { UpdateUserUseCase } from "@users/domain/usecases/update";
  * @property createUsersUseCase - Use case for creating a new user.
  * @property updateUsersUseCase - Use case for updating an existing user by ID.
  * @property deleteUsersUseCase - Use case for deleting a user by ID.
+ * @property getByIdUserUseCase - Use case for get user by ID.
  */
 const userApiDataSource = new UserApiDataSourceImpl();
 const userRepository = new UserRepositoryImpl(userApiDataSource);
@@ -25,4 +27,5 @@ export const diUsers = {
   createUsersUseCase: CreateUserUseCase(userRepository),
   updateUsersUseCase: UpdateUserUseCase(userRepository),
   deleteUsersUseCase: DeleteUserUseCase(userRepository),
+  getByIdUserUseCase: GetByIdUserUseCase(userRepository),
 };

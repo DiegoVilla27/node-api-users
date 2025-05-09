@@ -2,6 +2,7 @@ import routes from '@core/routes/interfaces';
 import createUser from '@users/infrastructure/controllers/create';
 import deleteUser from '@users/infrastructure/controllers/delete';
 import getUsers from '@users/infrastructure/controllers/get';
+import getUserById from '@users/infrastructure/controllers/get_by_id';
 import updateUser from '@users/infrastructure/controllers/update';
 import { Router } from 'express';
 
@@ -238,6 +239,7 @@ userRoutes.delete(`${routes.users}/:id`, deleteUser);
  *       500:
  *         description: Internal server error occurred while retrieving the user.
  */
+userRoutes.get(`${routes.users}/:id`, getUserById);
 
 /**
  * @swagger

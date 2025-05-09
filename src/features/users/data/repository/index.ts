@@ -160,4 +160,37 @@ export class UserRepositoryImpl implements UserRepository {
       { country: data.address.country }
     ));
   }
+
+  /**
+   * Retrieves a user from the data source by their unique ID and returns it as a `UserEntity`.
+   *
+   * This method:
+   * - Requests a reference to the user document using the provided ID.
+   * - Checks whether the document exists.
+   * - Verifies that the document contains valid user data.
+   * - Maps the retrieved data to a domain-level `UserEntity` object.
+   *
+   * @param id - The unique identifier of the user to retrieve.
+   * @returns A promise that resolves to the corresponding `UserEntity`.
+   * @throws Will throw an error if the document does not exist or its data is missing.
+   */
+  async getById(id: string): Promise<UserEntity> {
+    const userRef = await this.dataSource.getById(id);
+
+    if (!userRef.exists) {
+      throw new Error(`User ${id} does not exist`);
+    }
+
+    const data = userRef.data();
+    if (!data) {
+      throw new Error('Failed to retrieve user data after get');
+    }
+
+    return UserMapper.toEntity(new UserModel(
+      data.id,
+      data.firstName,
+      data.age,
+      { country: data.address.country }
+    ));
+  }
 }
