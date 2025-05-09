@@ -1,36 +1,103 @@
-# Clean Architecture with Node.js Express Project and Firebase Integration
+# 👤 User Management API
 
-This project is a simple Node.js application built using Express and Firebase. Baesed in Clean Architecture. It requires Firebase configuration to connect to Firebase services.
+A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to manage user data including creation, reading, updating, deleting, and image uploads. It follows **Clean Architecture** principles and integrates with **Firebase** for data persistence.
 
-## Prerequisites
+---
 
-Before you begin, ensure you have the following installed:
+## 🚀 Features
 
-- [Node.js](https://nodejs.org/) (version 20.12.2)
-- [npm](https://npmjs.com) (Node package manager version 10.5.0)
+- ✅ **CRUD** operations for users  
+- 📄 Get user by ID  
+- 📤 Upload user images (Firebase Storage)  
+- 🧱 Clean Architecture  
+- 🔥 Firebase Firestore as the database  
+- ⚙️ Environment variable support with `.env`  
+- 📚 API documentation with Swagger
 
-Additionally, you'll need a Firebase project for authentication and database services.
+---
 
-## Getting Started
+## ⚙️ Requirements
 
-- npm install
-- npm run dev (server port is 3100)
-- Config firebase keys json (create a file in src/infrastructure/database/firebaseServiceAccount.json with your data):
-  - The name collection must be _users_
-  - File json in firebase is located in: Configuration -> Project configuration -> Services account -> Generate new private key
+- **Node.js:** v20.12.2
+- **npm:** v10.5.0
+- **Firebase Project:** With Firestore and Storage enabled
 
-```json
-{
-  "type": "",
-  "project_id": "",
-  "private_key_id": "",
-  "private_key": "",
-  "client_email": "",
-  "client_id": "",
-  "auth_uri": "",
-  "token_uri": "",
-  "auth_provider_x509_cert_url": "",
-  "client_x509_cert_url": "",
-  "universe_domain": ""
-}
+---
+
+## 📦 Installation
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/DiegoVilla27/node-api-users
+cd node-api-users
 ```
+
+2. **Install dependencies:**
+
+```bash
+npm install
+```
+
+3. **Set environment variables:**
+
+Create a `.env` file in the root:
+
+```env
+PORT=3100
+```
+
+You may also use a `firebaseServiceAccount.json` and load it from `src/core/database/firebase`.
+
+4. **Run the server:**
+
+```bash
+npm run dev
+```
+
+---
+
+## 🧪 Example Endpoints
+
+| Method | Endpoint           | Description             |
+|--------|--------------------|-------------------------|
+| GET    | `/users`           | List all users          |
+| GET    | `/users/:id`       | Get user by ID          |
+| POST   | `/users`           | Create a new user       |
+| PUT    | `/users/:id`       | Update a user           |
+| DELETE | `/users/:id`       | Delete a user           |
+| POST   | `/users/:id/image` | Upload user image       |
+
+---
+
+## 🏗️ Clean Architecture Layers
+
+- **Core**: DI, Routes, Database
+- **Domain Layer**: Entities, UseCases, Repository
+- **Data Layer**: Models, Mappers, Repositories, DataSources
+- **Infrastructure Layer**: Controllers, Errors, Routes, DI
+
+---
+
+## 🔐 Environment Variables
+
+| Name                      | Description                          |
+|---------------------------|--------------------------------------|
+| `PORT`                    | Port where the server runs           |
+| `FIREBASE_PROJECT_ID`     | Firebase project ID                  |
+| `FIREBASE_CLIENT_EMAIL`   | Firebase service account email       |
+| `FIREBASE_PRIVATE_KEY`    | Firebase private key (escaped)       |
+| `FIREBASE_STORAGE_BUCKET` | Firebase Storage bucket URL          |
+
+---
+
+## 🧑‍💻 Author
+
+- Diego Villa
+- Frontend Software Engineer
+
+---
+
+## 📄 License
+
+MIT

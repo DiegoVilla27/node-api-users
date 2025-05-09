@@ -1,25 +1,48 @@
 import 'module-alias/register';
+import express from 'express';
 import routes from '@core/routes';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import express, { Request, Response } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swaggerConfig';
+import dotenv from 'dotenv';
 
 const app = express();
 
-// Middleware para parsear JSON en el body de las solicitudes
+// Load environment variables from .env file
+dotenv.config();
+
+/**
+ * Enable CORS for all origins.
+ */
 app.use(cors());
+
+/**
+ * Parse incoming requests with JSON payloads.
+ */
 app.use(express.json());
+
+/**
+ * Parse application/x-www-form-urlencoded payloads.
+ * @param {boolean} extended - When true, uses the qs library for rich objects and arrays support.
+ */
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Usar las rutas de usuario
+/**
+ * Setup Swagger API documentation route.
+ * Accessible at /api-docs
+ */
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+/**
+ * Mount all application routes.
+ */
 app.use(routes);
 
-// Definir una ruta básica
-app.get('/', (_req: Request, res: Response) => {
-  res.send('Hello, Clean Architecture with TypeScript!');
-});
-
-// Configurar el puerto en el que se ejecutará el servidor
+/**
+ * Start the server on the specified port.
+ * Defaults to port 3100 if not provided in the environment variables.
+ */
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3100;
 
 app.listen(PORT, () => {
