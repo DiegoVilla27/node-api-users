@@ -2,6 +2,7 @@ import { di } from "@core/di";
 import { UserEntity } from "@users/domain/entities/user";
 import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
+import { UserCreateSchema, UserIdParamSchema } from "./schema";
 
 const userUpdateSvc = di.user.updateUsersUseCase;
 
@@ -15,9 +16,9 @@ const userUpdateSvc = di.user.updateUsersUseCase;
  */
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const user: UserEntity = req.body;
-    const userRes = await userUpdateSvc(id, user);
+    const { id } = UserIdParamSchema.parse(req.params);
+    const userParsed = UserCreateSchema.parse(req.body) as UserEntity;
+    const userRes = await userUpdateSvc(id, userParsed);
 
     res.status(200).json(userRes);
   } catch (error) {

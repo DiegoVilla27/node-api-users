@@ -12,6 +12,9 @@
       "@core/*": [
         "src/core/*"
       ], // Alias core
+      "@shared/*": [
+        "src/shared/*"
+      ], // Alias shared
       "@users/*": [
         "src/features/users/*"
       ], // Alias user feature

@@ -2,6 +2,7 @@ import { di } from "@core/di";
 import { UserEntity } from "@users/domain/entities/user";
 import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
+import { UserCreateSchema } from "./schema";
 
 const userCreateSvc = di.user.createUsersUseCase;
 
@@ -17,8 +18,8 @@ const userCreateSvc = di.user.createUsersUseCase;
  */
 const createUser = async (req: Request, res: Response) => {
   try {
-    const userBody = req.body as UserEntity;
-    const userRes = await userCreateSvc(userBody);
+    const userParsed = UserCreateSchema.parse(req.body) as UserEntity;
+    const userRes = await userCreateSvc(userParsed);
 
     res.status(200).json(userRes);
   } catch (error) {

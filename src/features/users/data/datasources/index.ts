@@ -1,6 +1,13 @@
+import { UploadParams } from "@shared/interfaces/upload";
 import db from "@core/database/firebase";
 import { UserModel } from "@users/data/models/user";
+import AWS from 'aws-sdk';
 
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  region: 'eu-west-3',
+});
 const COLLECTION_USER: string = "users";
 
 /**
@@ -17,6 +24,7 @@ export interface UserApiDataSource {
   update(id: string, user: UserModel): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
   delete(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
   getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>>;
+  uploadImage(params: UploadParams): Promise<AWS.S3.ManagedUpload>;
 }
 
 /**
@@ -27,6 +35,7 @@ export interface UserApiDataSource {
  * - create: Adds a new user document to the user collection.
  * - update: Retrieves a reference to a specific user document by ID.
  * - delete: Retrieves a reference to a specific user document by ID for deletion.
+ * - uploadImage: Uploads a file to AWS S3 using the provided upload parameters and returns the upload result.
  * 
  * @class
  */
@@ -54,5 +63,10 @@ export class UserApiDataSourceImpl implements UserApiDataSource {
   async getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>> {
     const snapshot = await db.collection(COLLECTION_USER).doc(id).get();
     return snapshot;
+  }
+
+  async uploadImage(params: UploadParams): Promise<AWS.S3.ManagedUpload> {
+    const resAws = await s3.upload(params);
+    return resAws;
   }
 }

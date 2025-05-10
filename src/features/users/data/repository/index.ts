@@ -1,4 +1,5 @@
 
+import { UploadParams } from "@/shared/interfaces/upload";
 import { UserApiDataSourceImpl } from "@users/data/datasources";
 import { UserMapper } from "@users/data/mappers/user";
 import { UserResponseMapper } from "@users/data/mappers/user_response";
@@ -37,7 +38,8 @@ export class UserRepositoryImpl implements UserRepository {
         doc.id,
         data.firstName,
         data.age,
-        { country: data.address.country }
+        { country: data.address.country },
+        data.avatar
       );
       users.push(newUserModel);
     });
@@ -68,7 +70,7 @@ export class UserRepositoryImpl implements UserRepository {
 
     const docSnapshot = await userRef.get();
     if (!docSnapshot.exists) {
-      throw new Error(`User ${userRef.id} does not exist`);
+      throw new Error(`User "${userRef.id}" does not exist`);
     }
 
     const data = docSnapshot.data();
@@ -80,7 +82,8 @@ export class UserRepositoryImpl implements UserRepository {
       data.id,
       data.firstName,
       data.age,
-      { country: data.address.country }
+      { country: data.address.country },
+      data.avatar
     ));
   }
 
@@ -108,7 +111,7 @@ export class UserRepositoryImpl implements UserRepository {
 
     const docSnapshot = await userRef.get();
     if (!docSnapshot.exists) {
-      throw new Error(`User ${id} does not exist`);
+      throw new Error(`User "${id}" does not exist`);
     }
 
     const data = docSnapshot.data();
@@ -120,7 +123,8 @@ export class UserRepositoryImpl implements UserRepository {
       data.id,
       data.firstName,
       data.age,
-      { country: data.address.country }
+      { country: data.address.country },
+      data.avatar
     ));
   }
 
@@ -143,7 +147,7 @@ export class UserRepositoryImpl implements UserRepository {
     const docSnapshot = await userRef.get();
 
     if (!docSnapshot.exists) {
-      throw new Error(`User ${id} does not exist`);
+      throw new Error(`User "${id}" does not exist`);
     }
 
     await userRef.delete();
@@ -157,7 +161,8 @@ export class UserRepositoryImpl implements UserRepository {
       data.id,
       data.firstName,
       data.age,
-      { country: data.address.country }
+      { country: data.address.country },
+      data.avatar
     ));
   }
 
@@ -178,7 +183,7 @@ export class UserRepositoryImpl implements UserRepository {
     const userRef = await this.dataSource.getById(id);
 
     if (!userRef.exists) {
-      throw new Error(`User ${id} does not exist`);
+      throw new Error(`User "${id}" does not exist`);
     }
 
     const data = userRef.data();
@@ -190,7 +195,34 @@ export class UserRepositoryImpl implements UserRepository {
       data.id,
       data.firstName,
       data.age,
-      { country: data.address.country }
+      { country: data.address.country },
+      data.avatar
     ));
+  }
+
+  /**
+   * Uploads a user image to the external storage (e.g., AWS S3) and updates the user's avatar URL.
+   *
+   * This method:
+   * - Retrieves the user entity by its ID to ensure it exists.
+   * - Uploads the provided image using the storage data source with the given parameters.
+   * - Once uploaded, updates the `avatar` field of the user entity with the returned image URL.
+   * - Persists the updated user entity back to the data source.
+   *
+   * @param params - The parameters required for uploading the image, such as bucket, key, body, and content type.
+   * @param id - The unique identifier of the user whose avatar will be updated.
+   * @returns A Promise that resolves when the upload and update are successfully completed.
+   * @throws Will throw an error if the user does not exist or if the upload or update fails.
+   */
+  async uploadImage(params: UploadParams, id: string): Promise<void> {
+    const userRef = await this.getById(id);
+    if (!userRef) {
+      throw new Error(`User "${id}" does not exist`);
+    }
+
+    (await this.dataSource.uploadImage(params)).promise().then(async (res) => {
+      userRef.avatar = res.Location;
+      await this.update(id, userRef);
+    });
   }
 }

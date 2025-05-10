@@ -1,6 +1,7 @@
 import { di } from "@core/di";
 import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
+import { UserIdParamSchema } from "./schema";
 
 const userGetByIdSvc = di.user.getByIdUserUseCase;
 
@@ -18,7 +19,7 @@ const userGetByIdSvc = di.user.getByIdUserUseCase;
  */
 const getUserById = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = UserIdParamSchema.parse(req.params);
     const userRef = await userGetByIdSvc(id);
 
     res.status(200).json(userRef);

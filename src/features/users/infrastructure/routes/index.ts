@@ -4,6 +4,7 @@ import deleteUser from '@users/infrastructure/controllers/delete';
 import getUsers from '@users/infrastructure/controllers/get';
 import getUserById from '@users/infrastructure/controllers/get_by_id';
 import updateUser from '@users/infrastructure/controllers/update';
+import {upload, uploadImageUser} from '@users/infrastructure/controllers/upload';
 import { Router } from 'express';
 
 /**
@@ -270,5 +271,6 @@ userRoutes.get(`${routes.users}/:id`, getUserById);
  *       500:
  *         description: Internal server error occurred while uploading the image.
  */
+userRoutes.post(`${routes.users}/:id/image`, upload.single('image'), uploadImageUser);
 
 export default userRoutes;

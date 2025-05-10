@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { ZodError } from "zod";
 
 /**
  * Handles errors by sending an appropriate HTTP response.
@@ -16,6 +17,20 @@ export const handleError = (
   res: Response,
   message: string = "Unknown error occurred"
 ) => {
+  if (error instanceof ZodError) {
+    const { formErrors, fieldErrors } = error.flatten();
+
+    const allErrors = [
+      ...formErrors,
+      ...Object.values(fieldErrors).flat()
+    ].join(' | ');
+
+    return res.status(400).json({
+      message: allErrors,
+      status: 400
+    });
+  }
+
   if (error instanceof Error) {
     const isNotFound: boolean = error.message.toLowerCase().includes('does not exist');
     return res.status(isNotFound ? 404 : 500).json({

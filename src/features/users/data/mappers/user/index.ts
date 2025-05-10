@@ -12,10 +12,10 @@ import { UserEntity } from "@users/domain/entities/user";
 export class UserMapper {
 
   static toEntity(user: UserModel): UserEntity {
-    return new UserEntity(user.id, user.firstName, user.age, { country: user.address.country });
+    return new UserEntity(user.id, user.firstName, user.age, { country: user.address.country }, user.avatar);
   }
 
   static toModel(user: UserEntity): UserModel {
-    return new UserModel(user.id, user.firstName, user.age, { country: user.address.country });
+    return new UserModel(user.id, user.firstName, user.age, { country: user.address.country }, user.avatar);
   }
 }

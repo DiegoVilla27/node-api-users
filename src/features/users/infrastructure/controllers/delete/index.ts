@@ -1,6 +1,7 @@
 import { di } from "@core/di";
 import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
+import { UserIdParamSchema } from "./schema";
 
 const userDeleteSvc = di.user.deleteUsersUseCase;
 
@@ -17,7 +18,7 @@ const userDeleteSvc = di.user.deleteUsersUseCase;
  */
 const deleteUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = UserIdParamSchema.parse(req.params);
     const userRes = await userDeleteSvc(id);
 
     res.status(200).json(userRes);
