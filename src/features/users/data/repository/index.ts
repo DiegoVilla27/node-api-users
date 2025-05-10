@@ -1,5 +1,5 @@
 
-import { UploadParams } from "@/shared/interfaces/upload";
+import { UploadParams } from "@shared/interfaces/upload";
 import { UserApiDataSourceImpl } from "@users/data/datasources";
 import { UserMapper } from "@users/data/mappers/user";
 import { UserResponseMapper } from "@users/data/mappers/user_response";
@@ -37,8 +37,17 @@ export class UserRepositoryImpl implements UserRepository {
       const newUserModel = new UserModel(
         doc.id,
         data.firstName,
+        data.lastName,
+        data.gender,
+        data.birthDate,
         data.age,
-        { country: data.address.country },
+        data.email,
+        data.phoneNumber,
+        {
+          country: data.address.country,
+          city: data.address.city,
+          postalCode: data.address.postalCode
+        },
         data.avatar
       );
       users.push(newUserModel);
@@ -81,8 +90,17 @@ export class UserRepositoryImpl implements UserRepository {
     return UserMapper.toEntity(new UserModel(
       data.id,
       data.firstName,
+      data.lastName,
+      data.gender,
+      data.birthDate,
       data.age,
-      { country: data.address.country },
+      data.email,
+      data.phoneNumber,
+      {
+        country: data.address.country,
+        city: data.address.city,
+        postalCode: data.address.postalCode
+      },
       data.avatar
     ));
   }
@@ -122,8 +140,17 @@ export class UserRepositoryImpl implements UserRepository {
     return UserMapper.toEntity(new UserModel(
       data.id,
       data.firstName,
+      data.lastName,
+      data.gender,
+      data.birthDate,
       data.age,
-      { country: data.address.country },
+      data.email,
+      data.phoneNumber,
+      {
+        country: data.address.country,
+        city: data.address.city,
+        postalCode: data.address.postalCode
+      },
       data.avatar
     ));
   }
@@ -160,8 +187,17 @@ export class UserRepositoryImpl implements UserRepository {
     return UserMapper.toEntity(new UserModel(
       data.id,
       data.firstName,
+      data.lastName,
+      data.gender,
+      data.birthDate,
       data.age,
-      { country: data.address.country },
+      data.email,
+      data.phoneNumber,
+      {
+        country: data.address.country,
+        city: data.address.city,
+        postalCode: data.address.postalCode
+      },
       data.avatar
     ));
   }
@@ -194,8 +230,17 @@ export class UserRepositoryImpl implements UserRepository {
     return UserMapper.toEntity(new UserModel(
       data.id,
       data.firstName,
+      data.lastName,
+      data.gender,
+      data.birthDate,
       data.age,
-      { country: data.address.country },
+      data.email,
+      data.phoneNumber,
+      {
+        country: data.address.country,
+        city: data.address.city,
+        postalCode: data.address.postalCode
+      },
       data.avatar
     ));
   }

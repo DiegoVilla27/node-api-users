@@ -34,20 +34,54 @@ const userRoutes = Router();
  *         firstName:
  *           type: string
  *           description: The first name of the user.
+ *         lastName:
+ *           type: string
+ *           description: The last name of the user.
+ *         gender:
+ *           type: string
+ *           enum: [male, female, other]
+ *           description: The gender of the user.
+ *         birthDate:
+ *           type: string
+ *           format: date
+ *           description: The birth date of the user in the format yyyy-MM-dd.
  *         age:
  *           type: integer
  *           description: The age of the user.
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The email address of the user.
+ *         phoneNumber:
+ *           type: string
+ *           description: The phone number of the user.
  *         address:
  *           type: object
  *           properties:
  *             country:
  *               type: string
  *               description: The country of the user's address.
+ *             city:
+ *               type: string
+ *               description: The city of the user's address.
+ *             postalCode:
+ *               type: string
+ *               description: The postal code of the user's address.
+ *         avatar:
+ *           type: string
+ *           format: uri
+ *           description: The avatar URL of the user.
  *       required:
  *         - id
  *         - firstName
+ *         - lastName
+ *         - gender
+ *         - birthDate
  *         - age
+ *         - email
+ *         - phoneNumber
  *         - address
+ *         - avatar
  * 
  *     UserResponseEntity:
  *       type: object
@@ -108,19 +142,53 @@ userRoutes.get(routes.users, getUsers);
  *               firstName:
  *                 type: string
  *                 description: The first name of the user.
+ *               lastName:
+ *                 type: string
+ *                 description: The last name of the user.
+ *               gender:
+ *                 type: string
+ *                 enum: [male, female, other]
+ *                 description: The gender of the user.
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *                 description: The birth date of the user in the format yyyy-MM-dd.
  *               age:
  *                 type: integer
  *                 description: The age of the user.
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email address of the user.
+ *               phoneNumber:
+ *                 type: string
+ *                 description: The phone number of the user.
  *               address:
  *                 type: object
  *                 properties:
  *                   country:
  *                     type: string
  *                     description: The country of the user's address.
+ *                   city:
+ *                     type: string
+ *                     description: The city of the user's address.
+ *                   postalCode:
+ *                     type: string
+ *                     description: The postal code of the user's address.
+ *               avatar:
+ *                 type: string
+ *                 format: uri
+ *                 description: The avatar URL of the user.
  *             required:
  *               - firstName
+ *               - lastName
+ *               - gender
+ *               - birthDate
  *               - age
+ *               - email
+ *               - phoneNumber
  *               - address
+ *               - avatar
  *     responses:
  *       200:
  *         description: User successfully created.
@@ -159,19 +227,53 @@ userRoutes.post(routes.users, createUser);
  *               firstName:
  *                 type: string
  *                 description: The first name of the user.
+ *               lastName:
+ *                 type: string
+ *                 description: The last name of the user.
+ *               gender:
+ *                 type: string
+ *                 enum: [male, female, other]
+ *                 description: The gender of the user.
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *                 description: The birth date of the user in the format yyyy-MM-dd.
  *               age:
  *                 type: integer
  *                 description: The age of the user.
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email address of the user.
+ *               phoneNumber:
+ *                 type: string
+ *                 description: The phone number of the user.
  *               address:
  *                 type: object
  *                 properties:
  *                   country:
  *                     type: string
  *                     description: The country of the user's address.
+ *                   city:
+ *                     type: string
+ *                     description: The city of the user's address.
+ *                   postalCode:
+ *                     type: string
+ *                     description: The postal code of the user's address.
+ *               avatar:
+ *                 type: string
+ *                 format: uri
+ *                 description: The avatar URL of the user.
  *             required:
  *               - firstName
+ *               - lastName
+ *               - gender
+ *               - birthDate
  *               - age
+ *               - email
+ *               - phoneNumber
  *               - address
+ *               - avatar
  *     responses:
  *       200:
  *         description: User successfully updated.
@@ -205,6 +307,10 @@ userRoutes.put(`${routes.users}/:id`, updateUser);
  *     responses:
  *       200:
  *         description: User successfully deleted.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserEntity'
  *       400:
  *         description: Bad request, validation failed (e.g., invalid ID format).
  *       404:
@@ -264,6 +370,14 @@ userRoutes.get(`${routes.users}/:id`, getUserById);
  *     responses:
  *       200:
  *         description: Image uploaded successfully for the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'File upload successfully'
  *       400:
  *         description: Bad request, validation failed (e.g., invalid file format).
  *       404:
