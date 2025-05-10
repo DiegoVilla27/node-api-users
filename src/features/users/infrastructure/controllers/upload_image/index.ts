@@ -1,5 +1,5 @@
 import { di } from "@core/di";
-import { UploadParams } from "@shared/interfaces/upload";
+import { UploadImageParams } from "@shared/interfaces/upload";
 import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
 import multer from "multer";
@@ -7,7 +7,7 @@ import { UserIdParamSchema, validateFile } from "./schema";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-const userUploadSvc = di.user.uploadUserUseCase;
+const userUploadSvc = di.user.uploadImageUserUseCase;
 
 /**
  * Handles the HTTP request to upload a user's image and update their profile.
@@ -35,7 +35,7 @@ const uploadImageUser = async (req: Request, res: Response) => {
 
     const imageUrl: string = `${id}_${fileValid.originalname}`;
 
-    const params: UploadParams = {
+    const params: UploadImageParams = {
       Bucket: process.env.AWS_BUCKET_NAME!,
       Key: imageUrl,
       Body: fileValid.buffer,

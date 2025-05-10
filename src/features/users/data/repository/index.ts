@@ -1,5 +1,5 @@
 
-import { UploadParams } from "@shared/interfaces/upload";
+import { DeleteImageParams, UploadImageParams } from "@shared/interfaces/upload";
 import { UserApiDataSourceImpl } from "@users/data/datasources";
 import { UserMapper } from "@users/data/mappers/user";
 import { UserResponseMapper } from "@users/data/mappers/user_response";
@@ -170,36 +170,16 @@ export class UserRepositoryImpl implements UserRepository {
    * @throws Will throw an error if the document does not exist or its data is missing before deletion.
    */
   async delete(id: string): Promise<UserEntity> {
-    const userRef = await this.dataSource.delete(id);
-    const docSnapshot = await userRef.get();
+    const userRef = await this.getById(id);
 
-    if (!docSnapshot.exists) {
+    if (!userRef) {
       throw new Error(`User "${id}" does not exist`);
     }
 
-    await userRef.delete();
+    if (userRef?.avatar && userRef.avatar != '') await this.deleteImage(id, false);
+    await this.dataSource.delete(id);
 
-    const data = docSnapshot.data();
-    if (!data) {
-      throw new Error('Failed to retrieve user data after update');
-    }
-
-    return UserMapper.toEntity(new UserModel(
-      data.id,
-      data.firstName,
-      data.lastName,
-      data.gender,
-      data.birthDate,
-      data.age,
-      data.email,
-      data.phoneNumber,
-      {
-        country: data.address.country,
-        city: data.address.city,
-        postalCode: data.address.postalCode
-      },
-      data.avatar
-    ));
+    return userRef;
   }
 
   /**
@@ -259,15 +239,49 @@ export class UserRepositoryImpl implements UserRepository {
    * @returns A Promise that resolves when the upload and update are successfully completed.
    * @throws Will throw an error if the user does not exist or if the upload or update fails.
    */
-  async uploadImage(params: UploadParams, id: string): Promise<void> {
+  async uploadImage(params: UploadImageParams, id: string): Promise<void> {
     const userRef = await this.getById(id);
     if (!userRef) {
       throw new Error(`User "${id}" does not exist`);
     }
 
     (await this.dataSource.uploadImage(params)).promise().then(async (res) => {
-      userRef.avatar = res.Location;
+      userRef.avatar = res.Key;
       await this.update(id, userRef);
+    });
+  }
+
+  /**
+   * Delete a user image to the external storage (e.g., AWS S3) and clear the user's avatar URL.
+   *
+   * This method:
+   * - Retrieves the user entity by its ID to ensure it exists.
+   * - Delete the provided image using the storage data source with the given parameters.
+   * - Once deleted, clear the `avatar` field of the user entity.
+   * - Persists the updated user entity back to the data source.
+   *
+   * @param params - The parameters required for deleting the image, such as bucket, key.
+   * @param id - The unique identifier of the user whose avatar will be updated.
+   * @param updateUser - Allowed update a user or not.
+   * @returns A Promise that resolves when the delete and update are successfully completed.
+   * @throws Will throw an error if the user does not exist or if the delete or update fails.
+   */
+  async deleteImage(id: string, updateUser: boolean): Promise<void> {
+    const userRef = await this.getById(id);
+    if (!userRef) {
+      throw new Error(`User "${id}" does not exist`);
+    }
+
+    const params: DeleteImageParams = {
+      Bucket: process.env.AWS_BUCKET_NAME!,
+      Key: userRef.avatar,
+    };
+
+    (await this.dataSource.deleteImage(params)).promise().then(async () => {
+      if (updateUser) {
+        userRef.avatar = "";
+        await this.update(id, userRef);
+      }
     });
   }
 }

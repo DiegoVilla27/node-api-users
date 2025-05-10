@@ -1,4 +1,4 @@
-import { UploadParams } from "@shared/interfaces/upload";
+import { UploadImageParams, DeleteImageParams } from "@shared/interfaces/upload";
 import db from "@core/database/firebase";
 import { UserModel } from "@users/data/models/user";
 import AWS from 'aws-sdk';
@@ -22,9 +22,10 @@ export interface UserApiDataSource {
   get(): Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
   create(user: UserModel): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
   update(id: string, user: UserModel): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
-  delete(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
+  delete(id: string): Promise<FirebaseFirestore.WriteResult>;
   getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>>;
-  uploadImage(params: UploadParams): Promise<AWS.S3.ManagedUpload>;
+  uploadImage(params: UploadImageParams): Promise<AWS.S3.ManagedUpload>;
+  deleteImage(params: DeleteImageParams): Promise<AWS.Request<AWS.S3.DeleteObjectOutput, AWS.AWSError>>;
 }
 
 /**
@@ -36,6 +37,7 @@ export interface UserApiDataSource {
  * - update: Retrieves a reference to a specific user document by ID.
  * - delete: Retrieves a reference to a specific user document by ID for deletion.
  * - uploadImage: Uploads a file to AWS S3 using the provided upload parameters and returns the upload result.
+ * - deleteImage: Delete a file to AWS S3 using the provided deleteObject parameters and returns the delete result.
  * 
  * @class
  */
@@ -55,8 +57,8 @@ export class UserApiDataSourceImpl implements UserApiDataSource {
     return snapshot;
   }
 
-  async delete(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
-    const snapshot = await db.collection(COLLECTION_USER).doc(id);
+  async delete(id: string): Promise<FirebaseFirestore.WriteResult> {
+    const snapshot = await db.collection(COLLECTION_USER).doc(id).delete();
     return snapshot;
   }
 
@@ -65,8 +67,13 @@ export class UserApiDataSourceImpl implements UserApiDataSource {
     return snapshot;
   }
 
-  async uploadImage(params: UploadParams): Promise<AWS.S3.ManagedUpload> {
+  async uploadImage(params: UploadImageParams): Promise<AWS.S3.ManagedUpload> {
     const resAws = await s3.upload(params);
+    return resAws;
+  }
+
+  async deleteImage(params: DeleteImageParams): Promise<AWS.Request<AWS.S3.DeleteObjectOutput, AWS.AWSError>> {
+    const resAws = await s3.deleteObject(params);
     return resAws;
   }
 }

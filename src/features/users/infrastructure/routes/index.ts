@@ -1,10 +1,11 @@
 import routes from '@core/routes/interfaces';
 import createUser from '@users/infrastructure/controllers/create';
 import deleteUser from '@users/infrastructure/controllers/delete';
+import deleteImageUser from '@users/infrastructure/controllers/delete_image';
 import getUsers from '@users/infrastructure/controllers/get';
 import getUserById from '@users/infrastructure/controllers/get_by_id';
 import updateUser from '@users/infrastructure/controllers/update';
-import {upload, uploadImageUser} from '@users/infrastructure/controllers/upload';
+import { upload, uploadImageUser } from '@users/infrastructure/controllers/upload_image';
 import { Router } from 'express';
 
 /**
@@ -15,6 +16,8 @@ import { Router } from 'express';
  * - POST /users: Creates a new user.
  * - PUT /users/:id: Updates an existing user by ID.
  * - DELETE /users/:id: Deletes a user by ID.
+ * - UPLOAD IMAGE /users/:id:/image_upload Upload a user avatar by ID.
+ * - DELETE IMAGE /users/:id:/image_delete Delete a user avatar by ID.
  * 
  * Utilizes organization-specific controllers for handling
  * user operations and Express for routing.
@@ -385,6 +388,38 @@ userRoutes.get(`${routes.users}/:id`, getUserById);
  *       500:
  *         description: Internal server error occurred while uploading the image.
  */
-userRoutes.post(`${routes.users}/:id/image`, upload.single('image'), uploadImageUser);
+userRoutes.post(`${routes.users}/:id/image_upload`, upload.single('image'), uploadImageUser);
+
+/**
+ * @swagger
+ * /api/users/{id}/image:
+ *   post:
+ *     summary: Delete an image for a user
+ *     description: Delete an image (profile picture or any other) for a user identified by their unique ID.
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The unique ID of the user for whom the image is being deleted.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Image deleted successfully for the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'File deleted successfully'
+ *       404:
+ *         description: User not found with the specified ID.
+ *       500:
+ *         description: Internal server error occurred while deleting the image.
+ */
+userRoutes.post(`${routes.users}/:id/image_delete`, deleteImageUser);
 
 export default userRoutes;

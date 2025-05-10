@@ -10,9 +10,24 @@
  * - `Body`: The binary data of the file being uploaded (as a Buffer or Uint8Array).
  * - `ContentType`: The MIME type of the file (e.g., 'image/png', 'application/pdf').
  */
-export interface UploadParams {
+export interface UploadImageParams {
   Bucket: string;
   Key: string;
   Body: Buffer | Uint8Array;
   ContentType: string;
+}
+
+/**
+ * Defines the required parameters to delete a file to an AWS S3 bucket.
+ *
+ * This interface is used to encapsulate all the information needed
+ * by the AWS SDK when performing a file delete operation.
+ *
+ * Properties:
+ * - `Bucket`: The name of the S3 bucket where the file will be deleted.
+ * - `Key`: The unique identifier (path/filename) for the file in the S3 bucket.
+ */
+export interface DeleteImageParams {
+  Bucket: string;
+  Key: string;
 }

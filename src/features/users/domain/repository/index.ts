@@ -1,4 +1,4 @@
-import { UploadParams } from "@shared/interfaces/upload";
+import { UploadImageParams } from "@shared/interfaces/upload";
 import { UserEntity } from "@users/domain/entities/user";
 import { UserResponseEntity } from "@users/domain/entities/user_response";
 
@@ -13,6 +13,8 @@ import { UserResponseEntity } from "@users/domain/entities/user_response";
  * @method getById - Retrieve a user by ID and returns the UserEntity.
  * @method uploadImage - Uploads an image to a remote storage service (e.g., AWS S3) and updates the user entity with the image URL.
  *                       Takes upload parameters and the user ID as arguments.
+ * @method deleteImage - Delete an image to a remote storage service (e.g., AWS S3) and updates the user entity.
+ *                       Takes the user ID and updateUser as argument.
  */
 export interface UserRepository {
   get(): Promise<UserResponseEntity>;
@@ -20,7 +22,8 @@ export interface UserRepository {
   update(id: string, user: UserEntity): Promise<UserEntity>;
   delete(id: string): Promise<UserEntity>;
   getById(id: string): Promise<UserEntity>;
-  uploadImage(params: UploadParams, id: string): Promise<void>;
+  uploadImage(params: UploadImageParams, id: string): Promise<void>;
+  deleteImage(id: string, updateUser: boolean): Promise<void>;
 }
 
 export default UserRepository;

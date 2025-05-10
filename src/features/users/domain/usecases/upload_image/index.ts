@@ -1,4 +1,4 @@
-import { UploadParams } from "@shared/interfaces/upload";
+import { UploadImageParams } from "@shared/interfaces/upload";
 import UserRepository from "@users/domain/repository";
 
 /**
@@ -10,8 +10,8 @@ import UserRepository from "@users/domain/repository";
  * @returns An asynchronous function that takes S3 upload parameters and a user ID,
  *          and performs the image upload and user update.
  */
-export const UploadUserUseCase = (userRepository: UserRepository) => {
-  return async (params: UploadParams, id: string): Promise<void> => {
+export const UploadImageUserUseCase = (userRepository: UserRepository) => {
+  return async (params: UploadImageParams, id: string): Promise<void> => {
     return await userRepository.uploadImage(params, id);
   }
 }
