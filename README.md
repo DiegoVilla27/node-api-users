@@ -50,9 +50,9 @@ Create a `.env` file in the root:
 | `AWS_URL_IMAGES`          | AWS Url API Images                   |
 | `JWT_SECRET`              | JWT secret key                       |
 
-PORT=3100 (default)
-AWS_URL_IMAGES=https://api-users-images.s3.eu-west-3.amazonaws.com (default)
-You may also use a `firebaseServiceAccount.json` and load it from `src/core/database/firebase`.
+- PORT=3100 (default)
+- AWS_URL_IMAGES=https://api-users-images.s3.eu-west-3.amazonaws.com (default)
+- You may also use a `firebaseServiceAccount.json` and load it from `src/core/database/firebase`.
 
 4. **Run the server:**
 
