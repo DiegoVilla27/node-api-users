@@ -14,13 +14,13 @@ const userGetSvc = di.user.getUsersUseCase;
  * @param _ - The incoming HTTP request object (unused).
  * @param res - The HTTP response object used to send back the desired HTTP response.
  */
-const getUsers = async (_: Request, res: Response) => {
+const getUsers = async (_: Request, res: Response): Promise<any> => {
   try {
     const usersRef = await userGetSvc();
 
-    res.status(200).json(usersRef);
+    return res.status(200).json(usersRef);
   } catch (error) {
-    handleError(error, res, 'Error fetching users');
+    return handleError(error, res, 'Error fetching users');
   }
 };
 

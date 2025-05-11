@@ -1,4 +1,4 @@
-import { Gender } from '@shared/interfaces/gender/index';
+import { Gender } from '@shared/interfaces/gender';
 
 /**
  * Represents a user entity with basic personal information.
@@ -16,6 +16,7 @@ import { Gender } from '@shared/interfaces/gender/index';
  * @property {string} address.city - The city of the user's address.
  * @property {string} address.postalCode - The postal code of the user's address.
  * @property {string} avatar - The avatar of the user.
+ * @property {boolean} emailVerified - The email verified of the user.
  */
 export class UserEntity {
   id: string;
@@ -32,6 +33,7 @@ export class UserEntity {
     postalCode: string;
   };
   avatar: string;
+  emailVerified: boolean;
 
   constructor(
     id: string,
@@ -47,7 +49,8 @@ export class UserEntity {
       city: string,
       postalCode: string
     },
-    avatar: string
+    avatar: string,
+    emailVerified: boolean
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -59,5 +62,6 @@ export class UserEntity {
     this.phoneNumber = phoneNumber;
     this.address = address;
     this.avatar = avatar;
+    this.emailVerified = emailVerified;
   }
 }

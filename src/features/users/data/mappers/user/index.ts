@@ -26,7 +26,8 @@ export class UserMapper {
         city: user.address.city,
         postalCode: user.address.postalCode
       },
-      user.avatar
+      user.avatar,
+      user.emailVerified
     );
   }
 
@@ -45,7 +46,8 @@ export class UserMapper {
         city: user.address.city,
         postalCode: user.address.postalCode
       },
-      user.avatar
+      user.avatar,
+      user.emailVerified
     );
   }
 }

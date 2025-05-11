@@ -1,3 +1,4 @@
+import { diAuth } from "@auth/di";
 import { diUsers } from "@users/di";
 
 /**
@@ -11,4 +12,5 @@ import { diUsers } from "@users/di";
  */
 export const di = {
   user: diUsers,
+  auth: diAuth,
 };

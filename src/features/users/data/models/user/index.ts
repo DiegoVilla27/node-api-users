@@ -16,7 +16,8 @@ import { Gender } from '@shared/interfaces/gender/index';
  * @property {string} address.city - The city of the user's address.
  * @property {string} address.postalCode - The postal code of the user's address.
  * @property {string} avatar - The avatar of the user.
- */
+ * @property {boolean} emailVerified - The email verified of the user.
+*/
 export class UserModel {
   id: string;
   firstName: string;
@@ -32,6 +33,7 @@ export class UserModel {
     postalCode: string;
   };
   avatar: string;
+  emailVerified: boolean;
 
   constructor(
     id: string,
@@ -47,7 +49,8 @@ export class UserModel {
       city: string,
       postalCode: string
     },
-    avatar: string
+    avatar: string,
+    emailVerified: boolean
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -59,6 +62,7 @@ export class UserModel {
     this.phoneNumber = phoneNumber;
     this.address = address;
     this.avatar = avatar;
+    this.emailVerified = emailVerified;
   }
 
   toJSON(): object {
@@ -76,7 +80,8 @@ export class UserModel {
         city: this.address.city,
         postalCode: this.address.postalCode
       },
-      avatar: this.avatar
+      avatar: this.avatar,
+      emailVerified: this.emailVerified
     }
   }
 }

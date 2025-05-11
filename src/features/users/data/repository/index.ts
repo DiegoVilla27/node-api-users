@@ -38,17 +38,18 @@ export class UserRepositoryImpl implements UserRepository {
         doc.id,
         data.firstName,
         data.lastName,
-        data.gender,
-        data.birthDate,
-        data.age,
+        data.gender ?? '',
+        data.birthDate ?? '',
+        data.age ?? 0,
         data.email,
-        data.phoneNumber,
+        data.phoneNumber ?? '',
         {
-          country: data.address.country,
-          city: data.address.city,
-          postalCode: data.address.postalCode
+          country: data.address?.country ?? '',
+          city: data.address?.city ?? '',
+          postalCode: data.address?.postalCode ?? ''
         },
-        data.avatar
+        data.avatar ?? '',
+        data.emailVerified ?? false
       );
       users.push(newUserModel);
     });
@@ -91,17 +92,18 @@ export class UserRepositoryImpl implements UserRepository {
       data.id,
       data.firstName,
       data.lastName,
-      data.gender,
-      data.birthDate,
-      data.age,
+      data.gender ?? 'other',
+      data.birthDate ?? '',
+      data.age ?? 0,
       data.email,
-      data.phoneNumber,
+      data.phoneNumber ?? '',
       {
-        country: data.address.country,
-        city: data.address.city,
-        postalCode: data.address.postalCode
+        country: data.address?.country ?? '',
+        city: data.address?.city ?? '',
+        postalCode: data.address?.postalCode ?? ''
       },
-      data.avatar
+      data.avatar ?? '',
+      false
     ));
   }
 
@@ -141,17 +143,18 @@ export class UserRepositoryImpl implements UserRepository {
       data.id,
       data.firstName,
       data.lastName,
-      data.gender,
-      data.birthDate,
-      data.age,
+      data.gender ?? 'other',
+      data.birthDate ?? '',
+      data.age ?? 0,
       data.email,
-      data.phoneNumber,
+      data.phoneNumber ?? '',
       {
-        country: data.address.country,
-        city: data.address.city,
-        postalCode: data.address.postalCode
+        country: data.address?.country ?? '',
+        city: data.address?.city ?? '',
+        postalCode: data.address?.postalCode ?? ''
       },
-      data.avatar
+      data.avatar ?? '',
+      data.emailVerified ?? false
     ));
   }
 
@@ -211,17 +214,18 @@ export class UserRepositoryImpl implements UserRepository {
       data.id,
       data.firstName,
       data.lastName,
-      data.gender,
-      data.birthDate,
-      data.age,
+      data.gender ?? 'other',
+      data.birthDate ?? '',
+      data.age ?? 0,
       data.email,
-      data.phoneNumber,
+      data.phoneNumber ?? '',
       {
-        country: data.address.country,
-        city: data.address.city,
-        postalCode: data.address.postalCode
+        country: data.address?.country ?? '',
+        city: data.address?.city ?? '',
+        postalCode: data.address?.postalCode ?? ''
       },
-      data.avatar
+      data.avatar ?? '',
+      data.emailVerified ?? false
     ));
   }
 

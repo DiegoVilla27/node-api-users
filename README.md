@@ -59,14 +59,22 @@ npm run dev
 
 ## 🧪 Example Endpoints
 
-| Method | Endpoint           | Description             |
-|--------|--------------------|-------------------------|
-| GET    | `/users`           | List all users          |
-| GET    | `/users/:id`       | Get user by ID          |
-| POST   | `/users`           | Create a new user       |
-| PUT    | `/users/:id`       | Update a user           |
-| DELETE | `/users/:id`       | Delete a user           |
-| POST   | `/users/:id/image` | Upload user image       |
+- **Auth**
+| Method   | Endpoint                | Description             |
+|----------|-------------------------|-------------------------|
+| LOGIN    | `/login`                | Login user              |
+| REGISTER | `/register`             | Register an user        |
+
+- **Users**
+| Method | Endpoint                  | Description             |
+|--------|---------------------------|-------------------------|
+| GET    | `/users`                  | List all users          |
+| GET    | `/users/:id`              | Get user by ID          |
+| POST   | `/users`                  | Create a new user       |
+| PUT    | `/users/:id`              | Update a user           |
+| DELETE | `/users/:id`              | Delete a user           |
+| POST   | `/users/:id/upload_image` | Upload user image       |
+| POST   | `/users/:id/delete_image` | Delete user image       |
 
 ---
 
@@ -84,10 +92,11 @@ npm run dev
 | Name                      | Description                          |
 |---------------------------|--------------------------------------|
 | `PORT`                    | Port where the server runs           |
-| `FIREBASE_PROJECT_ID`     | Firebase project ID                  |
-| `FIREBASE_CLIENT_EMAIL`   | Firebase service account email       |
-| `FIREBASE_PRIVATE_KEY`    | Firebase private key (escaped)       |
-| `FIREBASE_STORAGE_BUCKET` | Firebase Storage bucket URL          |
+| `AWS_ACCESS_KEY_ID`       | AWS access key                       |
+| `AWS_SECRET_ACCESS_KEY`   | AWS secret access key                |
+| `AWS_BUCKET_NAME`         | AWS Bucket name                      |
+| `AWS_URL_IMAGES`          | AWS Url API Images                   |
+| `JWT_SECRET`              | JWT secret key                       |
 
 ---
 

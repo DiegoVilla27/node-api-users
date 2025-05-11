@@ -1,3 +1,4 @@
+import authMiddleware from '@core/middlewares/jwt';
 import routes from '@core/routes/interfaces';
 import createUser from '@users/infrastructure/controllers/create';
 import deleteUser from '@users/infrastructure/controllers/delete';
@@ -126,7 +127,7 @@ const userRoutes = Router();
  *       404:
  *         description: No users found or users data does not exist.
  */
-userRoutes.get(routes.users, getUsers);
+userRoutes.get(routes.users, authMiddleware, getUsers);
 
 /**
  * @swagger
@@ -204,7 +205,7 @@ userRoutes.get(routes.users, getUsers);
  *       500:
  *         description: Internal server error occurred while creating the user.
  */
-userRoutes.post(routes.users, createUser);
+userRoutes.post(routes.users, authMiddleware, createUser);
 
 /**
  * @swagger
@@ -291,7 +292,7 @@ userRoutes.post(routes.users, createUser);
  *       500:
  *         description: Internal server error occurred while updating the user.
  */
-userRoutes.put(`${routes.users}/:id`, updateUser);
+userRoutes.put(`${routes.users}/:id`, authMiddleware, updateUser);
 
 /**
  * @swagger
@@ -321,7 +322,7 @@ userRoutes.put(`${routes.users}/:id`, updateUser);
  *       500:
  *         description: Internal server error occurred while deleting the user.
  */
-userRoutes.delete(`${routes.users}/:id`, deleteUser);
+userRoutes.delete(`${routes.users}/:id`, authMiddleware, deleteUser);
 
 /**
  * @swagger
@@ -349,7 +350,7 @@ userRoutes.delete(`${routes.users}/:id`, deleteUser);
  *       500:
  *         description: Internal server error occurred while retrieving the user.
  */
-userRoutes.get(`${routes.users}/:id`, getUserById);
+userRoutes.get(`${routes.users}/:id`, authMiddleware, getUserById);
 
 /**
  * @swagger
@@ -388,7 +389,7 @@ userRoutes.get(`${routes.users}/:id`, getUserById);
  *       500:
  *         description: Internal server error occurred while uploading the image.
  */
-userRoutes.post(`${routes.users}/:id/image_upload`, upload.single('image'), uploadImageUser);
+userRoutes.post(`${routes.users}/:id/image_upload`, authMiddleware, upload.single('image'), uploadImageUser);
 
 /**
  * @swagger
@@ -420,6 +421,6 @@ userRoutes.post(`${routes.users}/:id/image_upload`, upload.single('image'), uplo
  *       500:
  *         description: Internal server error occurred while deleting the image.
  */
-userRoutes.post(`${routes.users}/:id/image_delete`, deleteImageUser);
+userRoutes.post(`${routes.users}/:id/image_delete`, authMiddleware, deleteImageUser);
 
 export default userRoutes;

@@ -32,4 +32,5 @@ export const UserCreateSchema = z.object({
     postalCode: z.string().min(3, 'Postal code is too short'),
   }),
   avatar: z.string().url('Avatar must be a valid URL').optional().or(z.literal('')),
+  emailVerified: z.boolean()
 });
