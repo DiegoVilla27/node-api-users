@@ -3,6 +3,13 @@ import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
 import { UserIdParamSchema } from "./schema";
 
+/**
+ * Service instance for deleting a user.
+ *
+ * This constant refers to the `deleteUsersUseCase` from the user dependency injection container.
+ * It encapsulates the business logic required to delete a user by their unique identifier (ID),
+ * ensuring any domain-level validations or side effects are handled appropriately.
+ */
 const userDeleteSvc = di.user.deleteUsersUseCase;
 
 /**

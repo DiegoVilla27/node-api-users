@@ -1,10 +1,33 @@
 import { z } from 'zod';
 
+/**
+ * Schema for validating the user ID parameter.
+ *
+ * This schema is used to validate that the `id` parameter passed in a request is a string.
+ * Typically used when validating URL parameters, ensuring that the `id` is in the expected format
+ * (string) for identifying a specific user resource.
+ *
+ * **Keys:**
+ * - `id`: Required string field representing the user ID.
+ */
 export const UserIdParamSchema = z.object({
   id: z.string(),
 });
 
+/**
+ * List of allowed MIME types for image uploads.
+ *
+ * This array defines the permitted image formats for the upload functionality.
+ * Only images with MIME types that match one of the values in this array will be accepted.
+ */
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png'];
+
+/**
+ * Maximum allowed file size for image uploads.
+ *
+ * This constant defines the maximum file size (in bytes) that an image file can have to be
+ * accepted by the upload system. In this case, the limit is set to 2MB.
+ */
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 /**

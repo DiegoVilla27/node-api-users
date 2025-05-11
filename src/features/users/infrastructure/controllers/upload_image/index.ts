@@ -5,8 +5,36 @@ import { Request, Response } from "express";
 import multer from "multer";
 import { UserIdParamSchema, validateFile } from "./schema";
 
+/**
+ * Memory storage configuration for file uploads using multer.
+ *
+ * This configuration uses `multer.memoryStorage()` to store files in memory 
+ * rather than on disk. The uploaded files are available in `req.file` as 
+ * a buffer, which can then be processed or saved to a database.
+ * 
+ * Typically used for short-lived files like images or temporary uploads.
+ */
 const storage = multer.memoryStorage();
+
+/**
+ * Multer middleware instance for handling file uploads.
+ *
+ * This instance is configured with the `storage` defined above to process file uploads 
+ * and store them in memory.
+ * It is typically used as middleware in routes to handle the upload process.
+ * 
+ * Files will be available in `req.file` (for single files) or `req.files` (for multiple files).
+ */
 const upload = multer({ storage });
+
+/**
+ * Service instance for uploading a user's image.
+ *
+ * This constant references the `uploadImageUserUseCase` from the user dependency injection container.
+ * It encapsulates the business logic for uploading an image to a user's profile.
+ * 
+ * Typically used in controllers to handle client requests for uploading profile images.
+ */
 const userUploadSvc = di.user.uploadImageUserUseCase;
 
 /**

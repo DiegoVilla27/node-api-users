@@ -4,6 +4,13 @@ import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
 import { UserCreateSchema } from "./schema";
 
+/**
+ * Service instance for creating a new user.
+ *
+ * This constant holds the reference to the `createUsersUseCase` from the user dependency container.
+ * It is used to handle the user creation logic by interacting with the domain layer, ensuring
+ * all necessary business rules and validations are applied before persisting the data.
+ */
 const userCreateSvc = di.user.createUsersUseCase;
 
 /**

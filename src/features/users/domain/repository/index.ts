@@ -4,25 +4,78 @@ import { UserResponseEntity } from "@users/domain/entities/user_response";
 
 /**
  * Interface for user repository operations.
- * Provides methods to perform CRUD operations on user entities.
+ * Provides methods for managing user entities, including creation, retrieval, updating,
+ * deletion, and image handling.
  *
- * @method get - Retrieves a list of users wrapped in a UserResponseEntity.
- * @method create - Adds a new user and returns the created UserEntity.
- * @method update - Updates an existing user by ID and returns the updated UserEntity.
- * @method delete - Removes a user by ID and returns the deleted UserEntity.
- * @method getById - Retrieve a user by ID and returns the UserEntity.
- * @method uploadImage - Uploads an image to a remote storage service (e.g., AWS S3) and updates the user entity with the image URL.
- *                       Takes upload parameters and the user ID as arguments.
- * @method deleteImage - Delete an image to a remote storage service (e.g., AWS S3) and updates the user entity.
- *                       Takes the user ID and updateUser as argument.
+ * This interface abstracts the logic for interacting with the data source (e.g., databases, APIs)
+ * and defines a clean contract for performing user-related operations.
+ *
+ * **Methods:**
+ * - `get`: Retrieves the current authenticated user.
+ * - `create`: Creates a new user in the system.
+ * - `update`: Updates the details of an existing user by ID.
+ * - `delete`: Deletes a user from the system by ID.
+ * - `getById`: Retrieves a user by their unique identifier.
+ * - `uploadImage`: Uploads a profile image for a user.
+ * - `deleteImage`: Deletes a user's image, with an option to update the user record.
  */
 export interface UserRepository {
+  /**
+   * Retrieves the current authenticated user.
+   *
+   * @returns {Promise<UserResponseEntity>} A promise resolving to the user's information.
+   */
   get(): Promise<UserResponseEntity>;
+
+  /**
+   * Creates a new user in the system.
+   *
+   * @param user - The user entity containing the details of the user to be created.
+   * @returns {Promise<UserEntity>} A promise resolving to the created user entity.
+   */
   create(user: UserEntity): Promise<UserEntity>;
+
+  /**
+   * Updates the details of an existing user.
+   *
+   * @param id - The unique identifier of the user to update.
+   * @param user - The updated user entity data.
+   * @returns {Promise<UserEntity>} A promise resolving to the updated user entity.
+   */
   update(id: string, user: UserEntity): Promise<UserEntity>;
+
+  /**
+   * Deletes a user from the system.
+   *
+   * @param id - The unique identifier of the user to delete.
+   * @returns {Promise<UserEntity>} A promise resolving to the deleted user entity.
+   */
   delete(id: string): Promise<UserEntity>;
+
+  /**
+   * Retrieves a user by their unique identifier.
+   *
+   * @param id - The unique identifier of the user to retrieve.
+   * @returns {Promise<UserEntity>} A promise resolving to the retrieved user entity.
+   */
   getById(id: string): Promise<UserEntity>;
+
+  /**
+   * Uploads a profile image for a specific user.
+   *
+   * @param params - The image upload parameters (e.g., file data, metadata).
+   * @param id - The ID of the user to whom the image will be associated.
+   * @returns {Promise<void>} A promise indicating completion of the upload operation.
+   */
   uploadImage(params: UploadImageParams, id: string): Promise<void>;
+
+  /**
+   * Deletes a user's profile image.
+   *
+   * @param id - The ID of the user whose image should be deleted.
+   * @param updateUser - Whether to update the user record after deletion.
+   * @returns {Promise<void>} A promise indicating completion of the deletion operation.
+   */
   deleteImage(id: string, updateUser: boolean): Promise<void>;
 }
 

@@ -4,17 +4,27 @@ import { handleError } from "@auth/infrastructure/errors";
 import { Request, Response } from "express";
 import { RegisterCreateSchema } from "./schema";
 
+/**
+ * Service instance for registering a new user.
+ *
+ * This constant holds the reference to the `registerUseCase` from the auth dependency container.
+ * It handles the logic of registering a user by interacting with the domain layer and
+ * applying any necessary validations or business rules.
+ */
 const registerSvc = di.auth.registerUseCase;
 
 /**
- * Handles the creation of a new user.
+ * Handles user registration.
  *
- * @param req - The HTTP request object, containing the user data in the body.
+ * @param req - The HTTP request object, expected to contain registration data such as name, email, and password.
  * @param res - The HTTP response object used to send back the response.
  *
- * Attempts to create a new user using the data provided in the request body.
- * On success, sends a JSON response with the created user data and a 200 status code.
- * If an error occurs, it is handled and an appropriate error response is sent.
+ * This function validates the request body against the registration schema, then invokes
+ * the register service to persist the new user data. Upon successful registration,
+ * a success message is returned with a 200 status code.
+ *
+ * If any error occurs (e.g., invalid data, repository failure), the `handleError` utility
+ * is used to return a structured error response.
  */
 const registerUser = async (req: Request, res: Response) => {
   try {

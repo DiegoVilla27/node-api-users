@@ -32,6 +32,24 @@ export class AuthRegisterModel {
     this.emailVerified = emailVerified;
   }
 
+  /**
+   * Converts the current instance of the `AuthRegisterEntity` to a plain JavaScript object.
+   *
+   * This method is used to transform the instance properties of the `AuthRegisterEntity` class
+   * into a simple JavaScript object that can be easily serialized or returned in API responses.
+   * The `toJSON()` method excludes any methods and returns only the essential user registration data.
+   *
+   * **Returns:**
+   * - A plain object containing the registration properties, formatted for JSON serialization.
+   *
+   * **Returned Object Structure:**
+   * - `id`: The unique identifier for the user.
+   * - `firstName`: The user's first name.
+   * - `lastName`: The user's last name.
+   * - `email`: The user's email address.
+   * - `password`: The user's password.
+   * - `emailVerified`: A boolean indicating if the user's email is verified.
+   */
   toJSON(): object {
     return {
       id: this.id,

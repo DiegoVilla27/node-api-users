@@ -3,6 +3,13 @@ import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
 import { UserIdParamSchema } from "./schema";
 
+/**
+ * Service instance for retrieving a user by their ID.
+ *
+ * This constant references the `getByIdUserUseCase` from the user dependency injection container.
+ * It encapsulates the business logic required to fetch a specific user by their unique identifier (ID) 
+ * from the data source.
+ */
 const userGetByIdSvc = di.user.getByIdUserUseCase;
 
 /**

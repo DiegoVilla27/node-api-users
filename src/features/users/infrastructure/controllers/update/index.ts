@@ -4,6 +4,13 @@ import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
 import { UserCreateSchema, UserIdParamSchema } from "./schema";
 
+/**
+ * Service instance for updating an existing user.
+ *
+ * This constant references the `updateUsersUseCase` from the user dependency injection container.
+ * It encapsulates the business logic for updating the details of an existing user 
+ * in the data source using their unique identifier (ID).
+ */
 const userUpdateSvc = di.user.updateUsersUseCase;
 
 /**

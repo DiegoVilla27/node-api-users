@@ -58,7 +58,6 @@ export class UserRepositoryImpl implements UserRepository {
     return userEntityResponse;
   }
 
-
   /**
    * Creates a new user in the data source and returns the created UserEntity.
    *

@@ -3,6 +3,14 @@ import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
 import { UserIdParamSchema } from "./schema";
 
+/**
+ * Service instance for deleting a user's image.
+ *
+ * This constant refers to the `deleteImageUserUseCase` from the user dependency injection container.
+ * It encapsulates the business logic required to remove a user's associated image from storage or database.
+ * This may include validating the user's existence, checking if an image is present, and handling
+ * file system or external storage interactions.
+ */
 const userDeleteImageSvc = di.user.deleteImageUserUseCase;
 
 /**

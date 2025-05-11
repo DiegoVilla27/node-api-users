@@ -1,11 +1,50 @@
 import { z } from 'zod';
 
+/**
+ * Schema for validating the user ID parameter.
+ *
+ * This schema is used to validate that the `id` parameter passed in a request is a string.
+ * Typically used when validating URL parameters, ensuring that the `id` is in the expected format
+ * (string) for identifying a specific user resource.
+ *
+ * **Keys:**
+ * - `id`: Required string field representing the user ID.
+ */
 export const UserIdParamSchema = z.object({
   id: z.string(),
 });
 
-const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/; // Format yyyy-MM-dd
+/**
+ * Regular expression to validate the date format "yyyy-MM-dd".
+ * This regex ensures that the date string follows the correct structure 
+ * but doesn't guarantee the validity of the date itself.
+ */
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
+/**
+ * Schema for validating user creation data using Zod.
+ *
+ * This schema defines the structure and validation rules for user input 
+ * during the user creation process. It ensures that the input adheres to 
+ * the expected types and formats, as well as providing error messages 
+ * for invalid or missing fields.
+ * 
+ * **Keys:**
+ * - `id`: Optional user ID (typically used for updates or when the ID is auto-generated).
+ * - `firstName`: Required field for the user's first name. Must be a non-empty string.
+ * - `lastName`: Required field for the user's last name. Must be a non-empty string.
+ * - `gender`: Enum field representing the user's gender. Must be one of: 'male', 'female', or 'other'.
+ * - `birthDate`: Date string in the format `yyyy-MM-dd`. Must be a valid date.
+ * - `age`: Integer representing the user's age. Must be positive and no greater than 120.
+ * - `email`: Required field for the user's email. Must be a valid email address.
+ * - `phoneNumber`: Required field for the user's phone number. Must have at least 6 characters.
+ * - `address`: Nested object representing the user's address, containing:
+ *   - `country`: Required field for the country. Must be a string with at least 2 characters.
+ *   - `city`: Required field for the city. Must be a string with at least 1 character.
+ *   - `postalCode`: Required field for the postal code. Must be a string with at least 3 characters.
+ * - `avatar`: Optional field for the user's avatar. Must be a valid URL or an empty string.
+ * - `emailVerified`: Boolean indicating whether the user's email is verified.
+ */
 export const UserCreateSchema = z.object({
   id: z.string().optional(),
   firstName: z.string().min(1, 'First name is required'),

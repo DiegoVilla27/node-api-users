@@ -65,6 +65,33 @@ export class UserModel {
     this.emailVerified = emailVerified;
   }
 
+  /**
+   * Converts the current instance of the user to a plain JavaScript object.
+   *
+   * This method is used to transform the instance properties of a class (or object)
+   * into a simple JavaScript object that can be easily serialized or returned
+   * in API responses. The `toJSON()` method excludes any methods and returns
+   * only the essential user data.
+   * 
+   * **Returns:**
+   * - A plain object containing the user's properties, formatted for JSON serialization.
+   * 
+   * **Returned Object Structure:**
+   * - `id`: The unique identifier for the user.
+   * - `firstName`: The user's first name.
+   * - `lastName`: The user's last name.
+   * - `gender`: The gender of the user, can be one of 'male', 'female', or 'other'.
+   * - `birthDate`: The user's birth date, formatted as a string (yyyy-MM-dd).
+   * - `age`: The user's age, a positive integer.
+   * - `email`: The user's email address.
+   * - `phoneNumber`: The user's phone number.
+   * - `address`: An object containing:
+   *    - `country`: The user's country.
+   *    - `city`: The user's city.
+   *    - `postalCode`: The postal code of the user's address.
+   * - `avatar`: The URL of the user's avatar image, if available.
+   * - `emailVerified`: A boolean indicating if the user's email is verified.
+   */
   toJSON(): object {
     return {
       id: this.id,

@@ -2,6 +2,7 @@
  * Interface representing the structure of route paths.
  * 
  * @property {string} users - The route path for user-related operations.
+ * @property {string} auth - The route path for auth-related operations.
  */
 interface IRoutes {
   users: string;

@@ -11,6 +11,16 @@ import { UserEntity } from "@users/domain/entities/user";
  */
 export class UserMapper {
 
+  /**
+   * Converts a `UserModel` instance to a `UserEntity` instance.
+   *
+   * This method takes a persistence model (`UserModel`) and maps it to a domain entity (`UserEntity`).
+   * The domain entity contains the necessary business logic and rules, while the persistence model is typically
+   * used for database operations. This method helps in separating concerns between different layers of the application.
+   * 
+   * @param {UserModel} user - The `UserModel` instance to be converted.
+   * @returns {UserEntity} A new `UserEntity` instance.
+   */
   static toEntity(user: UserModel): UserEntity {
     return new UserEntity(
       user.id,
@@ -31,6 +41,17 @@ export class UserMapper {
     );
   }
 
+  /**
+   * Converts a `UserEntity` instance to a `UserModel` instance.
+   *
+   * This method takes a domain entity (`UserEntity`) and maps it to a persistence model (`UserModel`).
+   * The persistence model is typically used for interacting with the database, while the domain entity
+   * is used for business logic and manipulation. This method allows for smooth conversion between layers
+   * of the application.
+   * 
+   * @param {UserEntity} user - The `UserEntity` instance to be converted.
+   * @returns {UserModel} A new `UserModel` instance.
+   */
   static toModel(user: UserEntity): UserModel {
     return new UserModel(
       user.id,

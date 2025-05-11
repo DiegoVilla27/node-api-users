@@ -2,6 +2,13 @@ import { di } from "@core/di";
 import { handleError } from "@users/infrastructure/errors";
 import { Request, Response } from "express";
 
+/**
+ * Service instance for retrieving all users.
+ *
+ * This constant references the `getUsersUseCase` from the user dependency injection container.
+ * It handles the business logic required to fetch a list of users from the data source,
+ * potentially applying filtering, sorting, or pagination logic depending on the implementation.
+ */
 const userGetSvc = di.user.getUsersUseCase;
 
 /**
