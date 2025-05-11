@@ -8,7 +8,7 @@ import AuthRepository from "@auth/domain/repository";
  * @returns An asynchronous function that takes an AuthRegisterEntity and performs the registration operation.
  */
 export const RegisterUseCase = (authRepository: AuthRepository) => {
-  return async (user: AuthRegisterEntity): Promise<void> => {
-    return await authRepository.register(user);
+  return async (user: AuthRegisterEntity, token: string): Promise<void> => {
+    return await authRepository.register(user, token);
   }
 }

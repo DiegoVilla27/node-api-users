@@ -1,8 +1,15 @@
 import { AuthRegisterEntity } from "@auth/domain/entities/register";
-import { di } from "@core/di";
 import { handleError } from "@auth/infrastructure/errors";
+import { di } from "@core/di";
 import { Request, Response } from "express";
+import jwt from 'jsonwebtoken';
 import { RegisterCreateSchema } from "./schema";
+
+/**
+ * Secret key used for signing JWT verify email tokens.
+ * It is retrieved from environment variables and cast as a string.
+ */
+const JWT_VERIFY_SECRET = String(process.env.JWT_VERIFY_SECRET!);
 
 /**
  * Service instance for registering a new user.
@@ -14,7 +21,7 @@ import { RegisterCreateSchema } from "./schema";
 const registerSvc = di.auth.registerUseCase;
 
 /**
- * Handles user registration.
+ * Handles user registration and generate a verify token and sending it via email.
  *
  * @param req - The HTTP request object, expected to contain registration data such as name, email, and password.
  * @param res - The HTTP response object used to send back the response.
@@ -29,7 +36,13 @@ const registerSvc = di.auth.registerUseCase;
 const registerUser = async (req: Request, res: Response) => {
   try {
     const userParsed = RegisterCreateSchema.parse(req.body) as AuthRegisterEntity;
-    await registerSvc(userParsed);
+
+    const token = jwt.sign(
+      { email: userParsed.email },
+      JWT_VERIFY_SECRET
+    );
+
+    await registerSvc(userParsed, token);
 
     res.status(200).json({ message: 'User created successfully' });
   } catch (error) {

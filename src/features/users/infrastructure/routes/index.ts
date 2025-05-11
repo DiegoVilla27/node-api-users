@@ -354,7 +354,7 @@ userRoutes.get(`${routes.users}/:id`, authMiddleware, getUserById);
 
 /**
  * @swagger
- * /api/users/{id}/image:
+ * /api/users/{id}/upload_image:
  *   post:
  *     summary: Upload an image for a user
  *     description: Uploads an image (profile picture or any other) for a user identified by their unique ID.
@@ -393,7 +393,7 @@ userRoutes.post(`${routes.users}/:id/image_upload`, authMiddleware, upload.singl
 
 /**
  * @swagger
- * /api/users/{id}/image:
+ * /api/users/{id}/delete_image:
  *   post:
  *     summary: Delete an image for a user
  *     description: Delete an image (profile picture or any other) for a user identified by their unique ID.

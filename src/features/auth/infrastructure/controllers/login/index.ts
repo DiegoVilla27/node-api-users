@@ -42,11 +42,11 @@ const loginUser = async (req: Request, res: Response) => {
     const userParsed = LoginCreateSchema.parse(req.body) as AuthLoginEntity;
     await loginSvc(userParsed);
 
-    const token = jwt.sign({ email: userParsed.email }, JWT_SECRET, {
+    const access_token = jwt.sign({ email: userParsed.email }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN
     });
 
-    res.status(200).json({ token });
+    res.status(200).json({ access_token });
   } catch (error) {
     handleError(error, res, 'Error login user');
   }

@@ -1,7 +1,10 @@
-import { LoginUseCase } from "@auth/domain/usecases/login";
-import { RegisterUseCase } from "@auth/domain/usecases/register";
 import { AuthApiDataSourceImpl } from "@auth/data/datasources";
 import { AuthRepositoryImpl } from "@auth/data/repository";
+import { ForgotPasswordUseCase } from "@auth/domain/usecases/forgot_password";
+import { LoginUseCase } from "@auth/domain/usecases/login";
+import { RegisterUseCase } from "@auth/domain/usecases/register";
+import { ResetPasswordUseCase } from "@auth/domain/usecases/reset_password";
+import { VerifyEmailUseCase } from "@auth/domain/usecases/verify_email";
 
 /**
  * Instance of the authentication API data source.
@@ -58,5 +61,34 @@ export const diAuth = {
    * - Sends the data to the repository for registration.
    * - Returns the result of the registration attempt (e.g., success confirmation, new user details).
    */
-  registerUseCase: RegisterUseCase(authRepository)
+  registerUseCase: RegisterUseCase(authRepository),
+
+  /**
+   * Use case responsible for handling the forgot password functionality.
+   *
+   * - Accepts the user's email and generates a password reset token.
+   * - Sends the reset token via email to the user using an email service.
+   * - Returns a confirmation of the reset request.
+   */
+  forgotPasswordUseCase: ForgotPasswordUseCase(authRepository),
+
+  /**
+   * Use case responsible for handling the password reset functionality.
+   *
+   * - Accepts the user's email and reset token along with the new password.
+   * - Validates the reset token and ensures it corresponds to the correct user.
+   * - Updates the user's password in the database with the new hashed password.
+   * - Returns a confirmation message indicating the password has been successfully reset.
+   */
+  resetPasswordUseCase: ResetPasswordUseCase(authRepository),
+
+  /**
+   * Use case responsible for handling the email verification functionality.
+   *
+   * - Accepts the user's email.
+   * - Validates the email and ensures it is registered in the system.
+   * - Marks the email as verified in the database.
+   * - Returns a confirmation message indicating the email has been successfully verified.
+   */
+  verifyEmailUseCase: VerifyEmailUseCase(authRepository)
 };
