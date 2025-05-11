@@ -44,6 +44,9 @@ export const di = {
    * **Properties**:
    * - `loginUseCase`: A use case for handling user login.
    * - `registerUseCase`: A use case for handling user registration.
+   * - `forgotPasswordUseCase`: A use case for handling forgot password user.
+   * - `resetPasswordUseCase`: A use case for handling reset password user.
+   * - `verifyEmailUseCase`: A use case for handling verify email user.
    */
   auth: diAuth,
 };
