@@ -57,7 +57,7 @@ npm run dev
 
 ---
 
-## 🧪 Example Endpoints
+## 🧪 Endpoints
 
 - **Auth**
 
