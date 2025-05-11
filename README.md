@@ -1,18 +1,24 @@
 # 👤 User Management API
 
-A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to manage user data including creation, reading, updating, deleting, and image uploads. It follows **Clean Architecture** principles and integrates with **Firebase** for data persistence.
+A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to manage auth system and user data including creation, reading, updating, deleting, and image uploads. It follows **Clean Architecture** principles and integrates with **Firebase** for data persistence.
 
 ---
 
 ## 🚀 Features
 
-- ✅ **CRUD** operations for users  
-- 📄 Get user by ID  
-- 📤 Upload user images (Firebase Storage)  
-- 🧱 Clean Architecture  
-- 🔥 Firebase Firestore as the database  
-- ⚙️ Environment variable support with `.env`  
-- 📚 API documentation with Swagger
+- **Users**
+  - ✅ **CRUD** operations for users  
+  - 📄 Get user by ID  
+  - 📤 Upload user images (Firebase Storage)  
+  - 🧱 Clean Architecture  
+  - 🔥 Firebase Firestore as the database  
+  - ⚙️ Environment variable support with `.env`  
+  - 📚 API documentation with Swagger
+
+- **Auth**
+  - ✅ **System** auth for users  
+  - 🔐 Login
+  - ✏️ Register an user
 
 ---
 
@@ -43,9 +49,14 @@ npm install
 
 Create a `.env` file in the root:
 
-```env
-PORT=3100
-```
+| Name                      | Description                          |
+|---------------------------|--------------------------------------|
+| `PORT`                    | Port where the server runs           |
+| `AWS_ACCESS_KEY_ID`       | AWS access key                       |
+| `AWS_SECRET_ACCESS_KEY`   | AWS secret access key                |
+| `AWS_BUCKET_NAME`         | AWS Bucket name                      |
+| `AWS_URL_IMAGES`          | AWS Url API Images                   |
+| `JWT_SECRET`              | JWT secret key                       |
 
 You may also use a `firebaseServiceAccount.json` and load it from `src/core/database/firebase`.
 
@@ -82,23 +93,10 @@ npm run dev
 
 ## 🏗️ Clean Architecture Layers
 
-- **Core**: DI, Routes, Database
+- **Core**: DI, Routes, Database, Middleware
 - **Domain Layer**: Entities, UseCases, Repository
 - **Data Layer**: Models, Mappers, Repositories, DataSources
 - **Infrastructure Layer**: Controllers, Errors, Routes, DI
-
----
-
-## 🔐 Environment Variables
-
-| Name                      | Description                          |
-|---------------------------|--------------------------------------|
-| `PORT`                    | Port where the server runs           |
-| `AWS_ACCESS_KEY_ID`       | AWS access key                       |
-| `AWS_SECRET_ACCESS_KEY`   | AWS secret access key                |
-| `AWS_BUCKET_NAME`         | AWS Bucket name                      |
-| `AWS_URL_IMAGES`          | AWS Url API Images                   |
-| `JWT_SECRET`              | JWT secret key                       |
 
 ---
 
