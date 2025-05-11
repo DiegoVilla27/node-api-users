@@ -61,15 +61,13 @@ npm run dev
 
 - **Auth**
 
-----------------------------------------------------------------
 | Method   | Endpoint                | Description             |
 |----------|-------------------------|-------------------------|
 | LOGIN    | `/login`                | Login user              |
 | REGISTER | `/register`             | Register an user        |
-----------------------------------------------------------------
+
 - **Users**
 
-----------------------------------------------------------------
 | Method | Endpoint                  | Description             |
 |--------|---------------------------|-------------------------|
 | GET    | `/users`                  | List all users          |
@@ -79,7 +77,7 @@ npm run dev
 | DELETE | `/users/:id`              | Delete a user           |
 | POST   | `/users/:id/upload_image` | Upload user image       |
 | POST   | `/users/:id/delete_image` | Delete user image       |
-----------------------------------------------------------------
+
 ---
 
 ## 🏗️ Clean Architecture Layers
