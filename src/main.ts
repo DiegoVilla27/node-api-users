@@ -6,6 +6,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swaggerConfig';
 import dotenv from 'dotenv';
+import xssClean from 'xss-clean';
 
 const app = express();
 
@@ -27,6 +28,9 @@ app.use(express.json());
  * @param {boolean} extended - When true, uses the qs library for rich objects and arrays support.
  */
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Sanitize incoming data against XSS
+app.use(xssClean());
 
 /**
  * Setup Swagger API documentation route.

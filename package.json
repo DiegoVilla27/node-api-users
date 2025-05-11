@@ -28,6 +28,7 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "tsconfig-paths": "^4.2.0",
+    "xss-clean": "^0.1.4",
     "zod": "^3.24.4"
   },
   "devDependencies": {
