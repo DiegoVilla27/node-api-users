@@ -1,24 +1,16 @@
 # 👤 User Management API
 
-A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to manage auth system and user data including creation, reading, updating, deleting, and image uploads. It follows **Clean Architecture** principles and integrates with **Firebase** for data persistence.
+A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to manage auth system and user data including creation, reading, updating, deleting, and image uploads. It follows **Clean Architecture** principles and integrates with **Firebase** for data persistence. Environment variable support with `.env` and API documentation with Swagger.
 
 ---
 
 ## 🚀 Features
 
 - **Users**
-  - ✅ **CRUD** operations for users  
-  - 📄 Get user by ID  
-  - 📤 Upload user images (Firebase Storage)  
-  - 🧱 Clean Architecture  
-  - 🔥 Firebase Firestore as the database  
-  - ⚙️ Environment variable support with `.env`  
-  - 📚 API documentation with Swagger
+  - ✅ **CRUD** operations for users
 
 - **Auth**
-  - ✅ **System** auth for users  
-  - 🔐 Login
-  - ✏️ Register an user
+  - ✅ **System** auth for users
 
 ---
 
