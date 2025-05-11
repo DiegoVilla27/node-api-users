@@ -62,6 +62,7 @@ export class UserRepositoryImpl implements UserRepository {
    * Creates a new user in the data source and returns the created UserEntity.
    *
    * This method:
+   * - Verify if email does not exists
    * - Converts the domain-level UserEntity to a persistence model using `UserMapper.toModel`.
    * - Sends the model to the data source for creation.
    * - Updates the created document with its own ID (e.g., for consistency in the stored data).
@@ -73,6 +74,8 @@ export class UserRepositoryImpl implements UserRepository {
    * @throws Will throw an error if the created document does not exist or its data is missing.
    */
   async create(user: UserEntity): Promise<UserEntity> {
+    await this.dataSource.getByEmail(user.email);
+
     const userRef = await this.dataSource.create(UserMapper.toModel(user));
 
     await userRef.update({ id: userRef.id });

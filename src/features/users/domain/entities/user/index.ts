@@ -33,7 +33,7 @@ export class UserEntity {
     postalCode: string;
   };
   avatar: string;
-  emailVerified: boolean;
+  emailVerified?: boolean;
 
   constructor(
     id: string,
@@ -50,7 +50,7 @@ export class UserEntity {
       postalCode: string
     },
     avatar: string,
-    emailVerified: boolean
+    emailVerified: boolean = false
   ) {
     this.id = id;
     this.firstName = firstName;

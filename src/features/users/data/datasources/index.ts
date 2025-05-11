@@ -27,7 +27,7 @@ const COLLECTION_USER: string = "users";
  * @interface UserApiDataSource
  */
 export interface UserApiDataSource {
-  
+
   /**
    * Retrieves all user documents from the Firestore database.
    * 
@@ -92,6 +92,20 @@ export interface UserApiDataSource {
    *          A promise that resolves with the `DocumentSnapshot` containing the user document data.
    */
   getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>>;
+
+  /**
+   * Retrieves a user document by its email address.
+   * 
+   * This method performs a query on the Firestore `users` collection to find documents 
+   * where the `email` field matches the provided email. It returns a `QuerySnapshot`
+   * that contains all matching user documents (up to the limit specified).
+   * 
+   * @param {string} email - The email address of the user to retrieve.
+   * 
+   * @returns {Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData>>}
+   *          A promise that resolves with the `QuerySnapshot` containing the user document(s) data.
+   */
+  getByEmail(email: string): Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>
 
   /**
    * Uploads an image to AWS S3 for a user profile.
@@ -216,6 +230,30 @@ export class UserApiDataSourceImpl implements UserApiDataSource {
    */
   async getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>> {
     const snapshot = await db.collection(COLLECTION_USER).doc(id).get();
+    return snapshot;
+  }
+
+  /**
+   * Checks if a user with the given email already exists in the Firestore `users` collection.
+   * 
+   * This method performs a query in the `users` collection to find a document where the `email` field
+   * matches the provided email. If a matching document is found, it throws an error indicating that 
+   * the email already exists. Otherwise, it returns the query snapshot.
+   * 
+   * **Throws:**
+   * - `Error`: If a user with the given email already exists in the database.
+   * 
+   * @param {string} email - The email address to check for existence.
+   * 
+   * @returns {Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData>>}
+   *          A promise that resolves with the `QuerySnapshot` containing the result of the query.
+   */
+  async getByEmail(email: string): Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
+    const snapshot = await db.collection('users').where('email', '==', email).limit(1).get();
+    if (!snapshot.empty) {
+      throw new Error('Email already exists');
+    }
+
     return snapshot;
   }
 
