@@ -1,3 +1,5 @@
+import { Role } from "@shared/interfaces/role";
+
 /**
  * Represents a auth register model with basic personal information.
  *
@@ -7,6 +9,7 @@
  * @property {string} email - The email address of the user.
  * @property {string} password - The password of the user.
  * @property {boolean} emailVerified - The email verified of the user.
+ * @property {Role} role - (Optional) The role of the user.
  */
 export class AuthRegisterModel {
   id: string;
@@ -15,6 +18,7 @@ export class AuthRegisterModel {
   email: string;
   password: string;
   emailVerified: boolean;
+  role?: Role;
 
   constructor(
     id: string,
@@ -22,7 +26,8 @@ export class AuthRegisterModel {
     lastName: string,
     email: string,
     password: string,
-    emailVerified: boolean
+    emailVerified: boolean,
+    role: Role
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -30,6 +35,7 @@ export class AuthRegisterModel {
     this.email = email;
     this.password = password;
     this.emailVerified = emailVerified;
+    this.role = role;
   }
 
   /**
@@ -49,6 +55,7 @@ export class AuthRegisterModel {
    * - `email`: The user's email address.
    * - `password`: The user's password.
    * - `emailVerified`: A boolean indicating if the user's email is verified.
+   * - `role`: The user's role.
    */
   toJSON(): object {
     return {
@@ -57,7 +64,8 @@ export class AuthRegisterModel {
       lastName: this.lastName,
       email: this.email,
       password: this.password,
-      emailVerified: this.emailVerified
+      emailVerified: this.emailVerified,
+      role: this.role
     }
   }
 }

@@ -37,6 +37,7 @@ export class UserMapper {
         postalCode: user.address.postalCode
       },
       user.avatar,
+      user.role,
       user.emailVerified
     );
   }
@@ -68,7 +69,8 @@ export class UserMapper {
         postalCode: user.address.postalCode
       },
       user.avatar,
-      user.emailVerified
+      user.role,
+      user.emailVerified ?? false
     );
   }
 }

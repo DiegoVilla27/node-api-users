@@ -49,6 +49,7 @@ export class UserRepositoryImpl implements UserRepository {
           postalCode: data.address?.postalCode ?? ''
         },
         data.avatar ?? '',
+        data.role ?? 'guest',
         data.emailVerified ?? false
       );
       users.push(newUserModel);
@@ -105,6 +106,7 @@ export class UserRepositoryImpl implements UserRepository {
         postalCode: data.address?.postalCode ?? ''
       },
       data.avatar ?? '',
+      data.role ?? 'guest',
       false
     ));
   }
@@ -156,6 +158,7 @@ export class UserRepositoryImpl implements UserRepository {
         postalCode: data.address?.postalCode ?? ''
       },
       data.avatar ?? '',
+      data.role,
       data.emailVerified ?? false
     ));
   }
@@ -227,6 +230,7 @@ export class UserRepositoryImpl implements UserRepository {
         postalCode: data.address?.postalCode ?? ''
       },
       data.avatar ?? '',
+      data.role,
       data.emailVerified ?? false
     ));
   }

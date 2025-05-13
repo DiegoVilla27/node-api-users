@@ -1,3 +1,4 @@
+import { Role } from '@shared/interfaces/role';
 import { Gender } from '@shared/interfaces/gender/index';
 
 /**
@@ -16,6 +17,7 @@ import { Gender } from '@shared/interfaces/gender/index';
  * @property {string} address.city - The city of the user's address.
  * @property {string} address.postalCode - The postal code of the user's address.
  * @property {string} avatar - The avatar of the user.
+ * @property {Role} role - The role of the user.
  * @property {boolean} emailVerified - The email verified of the user.
 */
 export class UserModel {
@@ -33,6 +35,7 @@ export class UserModel {
     postalCode: string;
   };
   avatar: string;
+  role: Role;
   emailVerified?: boolean;
 
   constructor(
@@ -50,7 +53,8 @@ export class UserModel {
       postalCode: string
     },
     avatar: string,
-    emailVerified: boolean = false
+    role: Role,
+    emailVerified: boolean
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -62,6 +66,7 @@ export class UserModel {
     this.phoneNumber = phoneNumber;
     this.address = address;
     this.avatar = avatar;
+    this.role = role;
     this.emailVerified = emailVerified;
   }
 
@@ -90,6 +95,7 @@ export class UserModel {
    *    - `city`: The user's city.
    *    - `postalCode`: The postal code of the user's address.
    * - `avatar`: The URL of the user's avatar image, if available.
+   * - `role`: The user's role.
    * - `emailVerified`: A boolean indicating if the user's email is verified.
    */
   toJSON(): object {
@@ -108,6 +114,7 @@ export class UserModel {
         postalCode: this.address.postalCode
       },
       avatar: this.avatar,
+      role: this.role,
       emailVerified: this.emailVerified
     }
   }

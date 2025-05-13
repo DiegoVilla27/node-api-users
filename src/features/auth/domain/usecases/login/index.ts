@@ -8,7 +8,7 @@ import AuthRepository from "@auth/domain/repository";
  * @returns An asynchronous function that takes an AuthLoginEntity and performs the login operation.
  */
 export const LoginUseCase = (authRepository: AuthRepository) => {
-  return async (user: AuthLoginEntity): Promise<void> => {
+  return async (user: AuthLoginEntity): Promise<string> => {
     return await authRepository.login(user);
   }
 }

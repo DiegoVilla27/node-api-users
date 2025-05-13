@@ -1,3 +1,4 @@
+import checkRoleMiddleware from '@core/middlewares/role';
 import authMiddleware from '@core/middlewares/jwt';
 import routes from '@core/routes/interfaces';
 import createUser from '@users/infrastructure/controllers/create';
@@ -127,7 +128,7 @@ const userRoutes = Router();
  *       404:
  *         description: No users found or users data does not exist.
  */
-userRoutes.get(routes.users, authMiddleware, getUsers);
+userRoutes.get(routes.users, authMiddleware, checkRoleMiddleware(['admin']), getUsers);
 
 /**
  * @swagger
@@ -205,7 +206,7 @@ userRoutes.get(routes.users, authMiddleware, getUsers);
  *       500:
  *         description: Internal server error occurred while creating the user.
  */
-userRoutes.post(routes.users, authMiddleware, createUser);
+userRoutes.post(routes.users, authMiddleware, checkRoleMiddleware(['admin']), createUser);
 
 /**
  * @swagger
@@ -292,7 +293,7 @@ userRoutes.post(routes.users, authMiddleware, createUser);
  *       500:
  *         description: Internal server error occurred while updating the user.
  */
-userRoutes.put(`${routes.users}/:id`, authMiddleware, updateUser);
+userRoutes.put(`${routes.users}/:id`, authMiddleware, checkRoleMiddleware(['guest']), updateUser);
 
 /**
  * @swagger
@@ -322,7 +323,7 @@ userRoutes.put(`${routes.users}/:id`, authMiddleware, updateUser);
  *       500:
  *         description: Internal server error occurred while deleting the user.
  */
-userRoutes.delete(`${routes.users}/:id`, authMiddleware, deleteUser);
+userRoutes.delete(`${routes.users}/:id`, authMiddleware, checkRoleMiddleware(['guest']), deleteUser);
 
 /**
  * @swagger
@@ -350,7 +351,7 @@ userRoutes.delete(`${routes.users}/:id`, authMiddleware, deleteUser);
  *       500:
  *         description: Internal server error occurred while retrieving the user.
  */
-userRoutes.get(`${routes.users}/:id`, authMiddleware, getUserById);
+userRoutes.get(`${routes.users}/:id`, authMiddleware, checkRoleMiddleware(['guest']), getUserById);
 
 /**
  * @swagger
@@ -389,7 +390,7 @@ userRoutes.get(`${routes.users}/:id`, authMiddleware, getUserById);
  *       500:
  *         description: Internal server error occurred while uploading the image.
  */
-userRoutes.post(`${routes.users}/:id/image_upload`, authMiddleware, upload.single('image'), uploadImageUser);
+userRoutes.post(`${routes.users}/:id/image_upload`, authMiddleware, checkRoleMiddleware(['guest']), upload.single('image'), uploadImageUser);
 
 /**
  * @swagger
@@ -421,6 +422,6 @@ userRoutes.post(`${routes.users}/:id/image_upload`, authMiddleware, upload.singl
  *       500:
  *         description: Internal server error occurred while deleting the image.
  */
-userRoutes.post(`${routes.users}/:id/image_delete`, authMiddleware, deleteImageUser);
+userRoutes.post(`${routes.users}/:id/image_delete`, authMiddleware, checkRoleMiddleware(['guest']), deleteImageUser);
 
 export default userRoutes;

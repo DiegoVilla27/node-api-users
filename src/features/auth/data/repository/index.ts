@@ -6,6 +6,19 @@ import { AuthLoginEntity } from "@auth/domain/entities/login";
 import { AuthRegisterEntity } from "@auth/domain/entities/register";
 import AuthRepository from "@auth/domain/repository";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
+
+/**
+ * Secret key used for signing JWT tokens.
+ * It is retrieved from environment variables and cast as a string.
+ */
+const JWT_SECRET = String(process.env.JWT_SECRET!);
+
+/**
+ * Expiration time for JWT tokens.
+ * Defines how long the issued token will be valid (e.g., '1d' = 1 day).
+ */
+const JWT_EXPIRES_IN = '1d';
 
 /**
  * Concrete implementation of the `AuthRepository` interface responsible for handling 
@@ -37,15 +50,21 @@ export class AuthRepositoryImpl implements AuthRepository {
    * 1. Calls the `login` method from the data source to retrieve the user record.
    * 2. Verifies if the user exists and if their email is verified.
    * 3. Compares the provided password with the stored hash using `bcrypt`.
+   * 4. Sign token with `JWT`.
    * 
    * @param user - The user credentials for login (email and password).
+   * @return {string} access_token signed.
    */
-  async login(user: AuthLoginEntity): Promise<void> {
+  async login(user: AuthLoginEntity): Promise<string> {
     const loginRef = await this.dataSource.login(AuthLoginMapper.toModel(user));
     const loginSnapshot = await loginRef.docs[0].data();
 
+    if (!loginSnapshot) {
+      throw new Error('User does no exist');
+    }
+
     if (!loginSnapshot.password) {
-      throw new Error('User has not been registered');
+      throw new Error('User has not been password');
     }
 
     if (!loginSnapshot.emailVerified) {
@@ -57,6 +76,16 @@ export class AuthRepositoryImpl implements AuthRepository {
     if (!isMatch) {
       throw new Error('Invalid password');
     }
+
+    // Sign token with JWT
+    const access_token = jwt.sign({
+      id: loginSnapshot.id,
+      email: loginSnapshot.email
+    }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN
+    });
+
+    return access_token;
   }
 
   /**

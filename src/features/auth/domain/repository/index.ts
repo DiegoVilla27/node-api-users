@@ -20,14 +20,14 @@ export interface AuthRepository {
    * @param user - The user entity containing the login details, such as email and password.
    * @returns {Promise<void>} A promise indicating the result of the login attempt.
    */
-  login(user: AuthLoginEntity): Promise<void>;
+  login(user: AuthLoginEntity): Promise<string>;
 
   /**
    * Registers a new user by adding their information to the system.
    * 
    * @param user - The user entity containing the registration details, such as name, email, and password.
    * @param token - Token verify of the user.
-   * @returns {Promise<void>} A promise indicating the result of the registration attempt.
+   * @returns {Promise<string>} A promise indicating the result of the registration attempt.
    */
   register(user: AuthRegisterEntity, token: string): Promise<void>;
 

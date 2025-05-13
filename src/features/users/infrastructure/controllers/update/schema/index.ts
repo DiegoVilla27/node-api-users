@@ -43,6 +43,7 @@ const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
  *   - `city`: Required field for the city. Must be a string with at least 1 character.
  *   - `postalCode`: Required field for the postal code. Must be a string with at least 3 characters.
  * - `avatar`: Optional field for the user's avatar. Must be a valid URL or an empty string.
+ * - `role`: Enum field representing the user's role. Must be one of: 'admin' or 'guest'.
  * - `emailVerified`: Boolean indicating whether the user's email is verified.
  */
 export const UserCreateSchema = z.object({
@@ -71,5 +72,8 @@ export const UserCreateSchema = z.object({
     postalCode: z.string().min(3, 'Postal code is too short'),
   }),
   avatar: z.string().url('Avatar must be a valid URL').optional().or(z.literal('')),
+  role: z.enum(['admin', 'guest'], {
+    errorMap: () => ({ message: 'Role must be admin or guest' })
+  }),
   emailVerified: z.boolean()
 });

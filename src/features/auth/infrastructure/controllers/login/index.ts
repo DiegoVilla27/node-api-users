@@ -2,20 +2,7 @@ import { AuthLoginEntity } from "@auth/domain/entities/login";
 import { handleError } from "@auth/infrastructure/errors";
 import { di } from "@core/di";
 import { Request, Response } from "express";
-import jwt from 'jsonwebtoken';
 import { LoginCreateSchema } from "./schema";
-
-/**
- * Secret key used for signing JWT tokens.
- * It is retrieved from environment variables and cast as a string.
- */
-const JWT_SECRET = String(process.env.JWT_SECRET!);
-
-/**
- * Expiration time for JWT tokens.
- * Defines how long the issued token will be valid (e.g., '1d' = 1 day).
- */
-const JWT_EXPIRES_IN = '1d';
 
 /**
  * Service instance for logging in a user.
@@ -33,18 +20,14 @@ const loginSvc = di.auth.loginUseCase;
  *
  * The function validates the request body against the login schema, then invokes
  * the login service to authenticate the user. If successful, a JWT token is generated 
- * using the user's email and returned in the response.
+ * using the user's email, user's role and returned in the response.
  *
  * On failure, the error is caught and a proper error message is sent using the `handleError` utility.
  */
 const loginUser = async (req: Request, res: Response) => {
   try {
     const userParsed = LoginCreateSchema.parse(req.body) as AuthLoginEntity;
-    await loginSvc(userParsed);
-
-    const access_token = jwt.sign({ email: userParsed.email }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN
-    });
+    const access_token = await loginSvc(userParsed);
 
     res.status(200).json({ access_token });
   } catch (error) {

@@ -37,7 +37,8 @@ export class AuthRegisterMapper {
       user.lastName,
       user.email,
       user.password,
-      user.emailVerified
+      user.emailVerified,
+      user.role ?? 'guest'
     );
   }
 
@@ -60,7 +61,8 @@ export class AuthRegisterMapper {
       user.lastName,
       user.email,
       user.password,
-      user.emailVerified
+      user.emailVerified,
+      user.role ?? 'guest'
     );
   }
 }

@@ -1,3 +1,4 @@
+import { Role } from '@shared/interfaces/role';
 import { Gender } from '@shared/interfaces/gender';
 
 /**
@@ -16,6 +17,7 @@ import { Gender } from '@shared/interfaces/gender';
  * @property {string} address.city - The city of the user's address.
  * @property {string} address.postalCode - The postal code of the user's address.
  * @property {string} avatar - The avatar of the user.
+ * @property {Role} role - The role of the user.
  * @property {boolean} emailVerified - The email verified of the user.
  */
 export class UserEntity {
@@ -33,6 +35,7 @@ export class UserEntity {
     postalCode: string;
   };
   avatar: string;
+  role: Role;
   emailVerified?: boolean;
 
   constructor(
@@ -50,6 +53,7 @@ export class UserEntity {
       postalCode: string
     },
     avatar: string,
+    role: Role,
     emailVerified: boolean = false
   ) {
     this.id = id;
@@ -62,6 +66,7 @@ export class UserEntity {
     this.phoneNumber = phoneNumber;
     this.address = address;
     this.avatar = avatar;
+    this.role = role;
     this.emailVerified = emailVerified;
   }
 }

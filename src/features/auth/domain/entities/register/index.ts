@@ -1,3 +1,5 @@
+import { Role } from "@shared/interfaces/role";
+
 /**
  * Represents a auth register entity with basic personal information.
  *
@@ -7,6 +9,7 @@
  * @property {string} email - The email address of the user.
  * @property {string} password - The password of the user.
  * @property {boolean} emailVerified - The email verified of the user.
+ * @property {Role} role - (Optional) The role of the user.
  */
 export class AuthRegisterEntity {
   id: string;
@@ -15,6 +18,7 @@ export class AuthRegisterEntity {
   email: string;
   password: string;
   emailVerified: boolean;
+  role?: Role;
 
   constructor(
     id: string,
@@ -22,7 +26,8 @@ export class AuthRegisterEntity {
     lastName: string,
     email: string,
     password: string,
-    emailVerified: boolean
+    emailVerified: boolean,
+    role: Role,
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -30,5 +35,6 @@ export class AuthRegisterEntity {
     this.email = email;
     this.password = password;
     this.emailVerified = emailVerified;
+    this.role = role;
   }
 }
