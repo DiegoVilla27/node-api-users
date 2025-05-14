@@ -26,7 +26,8 @@ export class PostMapper {
       post.id,
       post.title,
       post.description,
-      post.createDate
+      post.createDate,
+      post.likes
     );
   }
 
@@ -46,7 +47,8 @@ export class PostMapper {
       post.id,
       post.title,
       post.description,
-      post.createDate
+      post.createDate,
+      post.likes
     );
   }
 }

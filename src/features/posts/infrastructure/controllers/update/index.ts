@@ -25,9 +25,9 @@ const updatePost = async (req: Request, res: Response) => {
   try {
     const { id } = PostIdParamSchema.parse(req.params);
     const postParsed = PostCreateSchema.parse(req.body) as PostEntity;
-    const postRes = await postUpdateSvc(id, postParsed);
+    await postUpdateSvc(id, postParsed);
 
-    res.status(200).json(postRes);
+    res.status(200).json({ message: 'Post updated successfully' });
   } catch (error) {
     handleError(error, res, 'Error updating post');
   }

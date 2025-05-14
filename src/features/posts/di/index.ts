@@ -1,10 +1,12 @@
+
 import { PostApiDataSourceImpl } from "@posts/data/datasources";
 import { PostRepositoryImpl } from "@posts/data/repository";
 import { CreatePostUseCase } from "@posts/domain/usecases/create";
 import { DeletePostUseCase } from "@posts/domain/usecases/delete";
 import { GetPostsUseCase } from "@posts/domain/usecases/get";
-import { UpdatePostUseCase } from "@posts/domain/usecases/update";
 import { GetByIdPostUseCase } from "@posts/domain/usecases/get_by_id";
+import { LikePostUseCase } from "@posts/domain/usecases/like";
+import { UpdatePostUseCase } from "@posts/domain/usecases/update";
 
 /**
  * Instance of the post API data source.
@@ -89,4 +91,13 @@ export const diPosts = {
    * - Used in detail or profile views.
    */
   getByIdPostUseCase: GetByIdPostUseCase(postRepository),
+
+  /**
+   * Use case responsible for updating like an existing post by ID.
+   *
+   * - Accepts an identifier and updated post data.
+   * - Delegates to the repository to perform the update.
+   * - Returns the updated post or success status.
+   */
+  likePostsUseCase: LikePostUseCase(postRepository),
 };

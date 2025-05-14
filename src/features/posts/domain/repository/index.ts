@@ -36,9 +36,9 @@ export interface PostRepository {
    *
    * @param id - The unique identifier of the post to update.
    * @param post - The updated post entity data.
-   * @returns {Promise<PostEntity>} A promise resolving to the updated post entity.
+   * @returns {Promise<void>} A promise resolving to the updated post entity.
    */
-  update(id: string, post: PostEntity): Promise<PostEntity>;
+  update(id: string, post: PostEntity): Promise<void>;
 
   /**
    * Deletes a post from the system.
@@ -55,6 +55,13 @@ export interface PostRepository {
    * @returns {Promise<PostEntity>} A promise resolving to the retrieved post entity.
    */
   getById(id: string): Promise<PostEntity>;
+
+  /**
+   * Updates the likes of an existing post.
+   *
+   * @param id - The unique identifier of the post to update.
+   */
+  like(id: string): Promise<void>;
 }
 
 export default PostRepository;

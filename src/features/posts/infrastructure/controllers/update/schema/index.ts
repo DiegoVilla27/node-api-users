@@ -45,5 +45,5 @@ export const PostCreateSchema = z.object({
     .refine(
       (val) => !isNaN(Date.parse(val)),
       'Create date must be a valid date'
-    ),
+    )
 });

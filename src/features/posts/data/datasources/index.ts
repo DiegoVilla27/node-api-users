@@ -83,6 +83,19 @@ export interface PostApiDataSource {
    *          A promise that resolves with the `DocumentSnapshot` containing the post document data.
    */
   getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>>;
+
+  /**
+   * Updates an existing post document in Firestore by ID.
+   * 
+   * This method updates an existing post document by its `id`.
+   * It returns a document reference, which can be used for further operations on the updated document.
+   * 
+   * @param {string} id - The ID of the post document to update.
+   * 
+   * @returns {Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>>} 
+   *          A promise that resolves with the reference of the updated post document.
+   */
+  updateById(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
 }
 
 /**
@@ -179,6 +192,22 @@ export class PostApiDataSourceImpl implements PostApiDataSource {
    */
   async getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>> {
     const snapshot = await db.collection(COLLECTION_USER).doc(id).get();
+    return snapshot;
+  }
+
+  /**
+   * Retrieves a reference to a specific post document by its ID.
+   * 
+   * This method fetches a document reference for a specific post document in Firestore based on the provided `id`.
+   * The reference can be used to update the document or perform other operations on it.
+   * 
+   * @param {string} id - The ID of the post document to retrieve the reference for.
+   * 
+   * @returns {Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>} 
+   *          A promise that resolves with a `DocumentReference` to the post document in Firestore.
+   */
+  async updateById(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
+    const snapshot = await db.collection(COLLECTION_USER).doc(id);
     return snapshot;
   }
 }

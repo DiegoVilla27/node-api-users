@@ -7,7 +7,7 @@ import { PostResponseModel } from "@posts/data/models/post_response";
 import { PostEntity } from "@posts/domain/entities/post";
 import { PostResponseEntity } from "@posts/domain/entities/post_response";
 import PostRepository from "@posts/domain/repository";
-import { DeleteImageParams, UploadImageParams } from "@shared/interfaces/upload";
+import { FieldValue } from 'firebase-admin/firestore';
 
 /**
  * Implementation of the PostRepository interface, providing methods to interact
@@ -38,7 +38,8 @@ export class PostRepositoryImpl implements PostRepository {
         doc.id,
         data.title,
         data.description,
-        data.createDate ?? ''
+        data.createDate ?? '',
+        data.likes
       );
       posts.push(newPostModel);
     });
@@ -62,7 +63,13 @@ export class PostRepositoryImpl implements PostRepository {
    * @throws Will throw an error if the created document does not exist or its data is missing.
    */
   async create(post: PostEntity): Promise<PostEntity> {
-    const postRef = await this.dataSource.create(PostMapper.toModel(post));
+    const postRef = await this.dataSource.create(new PostModel(
+      post.id,
+      post.title,
+      post.description,
+      post.createDate ?? '',
+      0
+    ));
 
     await postRef.update({ id: postRef.id });
 
@@ -80,7 +87,8 @@ export class PostRepositoryImpl implements PostRepository {
       data.id,
       data.title,
       data.description,
-      data.createDate ?? ''
+      data.createDate ?? '',
+      0
     ));
   }
 
@@ -97,14 +105,11 @@ export class PostRepositoryImpl implements PostRepository {
    *
    * @param id - The ID of the post to update.
    * @param post - The `PostEntity` containing the new post data.
-   * @returns A promise that resolves to the updated `PostEntity`.
+   * @returns A promise that resolves to the updated.
    * @throws Will throw an error if the document does not exist or its data is missing after update.
    */
-  async update(id: string, post: PostEntity): Promise<PostEntity> {
+  async update(id: string, post: PostEntity): Promise<void> {
     const postRef = await this.dataSource.update(id);
-
-    const postModel = PostMapper.toModel(post);
-    await postRef.update(postModel.toJSON());
 
     const docSnapshot = await postRef.get();
     if (!docSnapshot.exists) {
@@ -116,12 +121,9 @@ export class PostRepositoryImpl implements PostRepository {
       throw new Error('Failed to retrieve post data after update');
     }
 
-    return PostMapper.toEntity(new PostModel(
-      data.id,
-      data.title,
-      data.description,
-      data.createDate ?? ''
-    ));
+    post.likes = data.likes;
+    const postModel = PostMapper.toModel(post);
+    await postRef.update(postModel.toJSON());
   }
 
   /**
@@ -179,7 +181,37 @@ export class PostRepositoryImpl implements PostRepository {
       data.id,
       data.title,
       data.description,
-      data.createDate ?? ''
+      data.createDate ?? '',
+      data.likes
     ));
+  }
+
+  /**
+   * Updates an existing post by id in the data source.
+   *
+   * This method:
+   * - Obtains a reference to the post document using the provided ID.
+   * - Fetches the updated document snapshot.
+   * - Validates the existence and data of the updated document.
+   * - Updates the post document with the new data.
+   *
+   * @param id - The ID of the post to update.
+   * @returns A promise that resolves to the updated.
+   * @throws Will throw an error if the document does not exist or its data is missing after update.
+   */
+  async like(id: string): Promise<void> {
+    const postRef = await this.dataSource.update(id);
+
+    const docSnapshot = await postRef.get();
+    if (!docSnapshot.exists) {
+      throw new Error(`Post "${id}" does not exist`);
+    }
+
+    const data = docSnapshot.data();
+    if (!data) {
+      throw new Error('Failed to retrieve post data after update');
+    }
+
+    await postRef.update({ likes: FieldValue.increment(1) });
   }
 }
