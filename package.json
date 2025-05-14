@@ -50,6 +50,7 @@
     "@core": "src/core",
     "@shared": "src/shared",
     "@users": "src/features/users",
-    "@auth": "src/features/auth"
+    "@auth": "src/features/auth",
+    "@posts": "src/features/posts"
   }
 }

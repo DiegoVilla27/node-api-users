@@ -11,7 +11,7 @@ import { UserResponseEntity } from "@users/domain/entities/user_response";
  * and defines a clean contract for performing user-related operations.
  *
  * **Methods:**
- * - `get`: Retrieves the current authenticated user.
+ * - `get`: Retrieves all users.
  * - `create`: Creates a new user in the system.
  * - `update`: Updates the details of an existing user by ID.
  * - `delete`: Deletes a user from the system by ID.
@@ -21,7 +21,7 @@ import { UserResponseEntity } from "@users/domain/entities/user_response";
  */
 export interface UserRepository {
   /**
-   * Retrieves the current authenticated user.
+   * Retrieves users.
    *
    * @returns {Promise<UserResponseEntity>} A promise resolving to the user's information.
    */

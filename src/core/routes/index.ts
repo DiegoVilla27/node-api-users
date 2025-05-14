@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userRoutes from '@users/infrastructure/routes';
 import authRoutes from "@auth/infrastructure/routes";
+import postRoutes from "@posts/infrastructure/routes";
 
 /**
  * Configures and exports the main API router.
@@ -10,6 +11,7 @@ import authRoutes from "@auth/infrastructure/routes";
  */
 const api = Router()
   .use(userRoutes)
-  .use(authRoutes);
+  .use(authRoutes)
+  .use(postRoutes);
 
 export default Router().use('/api', api);

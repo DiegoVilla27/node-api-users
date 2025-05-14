@@ -1,6 +1,6 @@
 # 👤 User Management API
 
-A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to manage auth system and user data including creation, reading, updating, deleting, and image uploads. It follows **Clean Architecture** principles and integrates with **Firebase** for data persistence. Environment variable support with `.env` and API documentation with Swagger.
+A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to manage auth system and user & post data including creation, reading, updating, deleting, and image uploads. It follows **Clean Architecture** principles and integrates with **Firebase** for data persistence. Environment variable support with `.env` and API documentation with Swagger.
 
 ---
 
@@ -8,6 +8,9 @@ A RESTful API built with **Node.js (v20.12.2)** and **Express (v4.21.2)** to man
 
 - **Users**
   - ✅ **CRUD** operations for users
+
+- **Posts**
+  - ✅ **CRUD** operations for posts
 
 - **Auth**
   - ✅ **System** auth for users
@@ -85,6 +88,16 @@ npm run dev
 | DELETE | `/users/:id`              | Delete a user           |
 | POST   | `/users/:id/upload_image` | Upload user image       |
 | POST   | `/users/:id/delete_image` | Delete user image       |
+
+- **Posts**
+
+| Method | Endpoint                  | Description             |
+|--------|---------------------------|-------------------------|
+| GET    | `/posts`                  | List all posts          |
+| GET    | `/posts/:id`              | Get post by ID          |
+| POST   | `/posts`                  | Create a new post       |
+| PUT    | `/posts/:id`              | Update a post           |
+| DELETE | `/posts/:id`              | Delete a post           |
 
 ---
 

@@ -18,6 +18,7 @@ import { Router } from 'express';
  * - POST /users: Creates a new user.
  * - PUT /users/:id: Updates an existing user by ID.
  * - DELETE /users/:id: Deletes a user by ID.
+ * - GET /users/:id: Get a user by ID.
  * - UPLOAD IMAGE /users/:id:/image_upload Upload a user avatar by ID.
  * - DELETE IMAGE /users/:id:/image_delete Delete a user avatar by ID.
  * 

@@ -1,5 +1,6 @@
 import { diAuth } from "@auth/di";
 import { diUsers } from "@users/di";
+import { diPosts } from "@posts/di";
 
 /**
  * Dependency Injection (DI) configuration.
@@ -16,6 +17,8 @@ import { diUsers } from "@users/di";
  *   retrieving, and deleting users).
  * - `auth`: Contains all authentication-related use cases and their dependencies (e.g., login, 
  *   registration, authentication checks).
+ * - `post`: Contains all post-related use cases and their dependencies (e.g., creating, updating, 
+ *   retrieving, and deleting posts).
  * 
  * By using DI, the `di` object helps to decouple the logic for managing users and authentication 
  * from the rest of the application, fostering better code maintainability and testability.
@@ -49,4 +52,16 @@ export const di = {
    * - `verifyEmailUseCase`: A use case for handling verify email user.
    */
   auth: diAuth,
+  /**
+   * Contains all posts-related use cases and their dependencies. This object is responsible for managing
+   * the entire lifecycle of posts data, including creation, retrieval, updates, deletion.
+   * 
+   * **Properties**:
+   * - `getPostsUseCase`: A use case for retrieving all posts from the system.
+   * - `createPostsUseCase`: A use case for creating a new post in the system.
+   * - `updatePostsUseCase`: A use case for updating an existing post by their ID.
+   * - `deletePostsUseCase`: A use case for deleting a post by their ID.
+   * - `getByIdPostUseCase`: A use case for retrieving a post by their ID.
+   */
+  post: diPosts,
 };

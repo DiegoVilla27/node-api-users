@@ -30,7 +30,7 @@ const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
  * for invalid or missing fields.
  * 
  * **Keys:**
- * - `id`: Optional user ID (typically used for updates or when the ID is auto-generated).
+ * - `id`: User ID. Must be a non-empty string.
  * - `firstName`: Required field for the user's first name. Must be a non-empty string.
  * - `lastName`: Required field for the user's last name. Must be a non-empty string.
  * - `gender`: Enum field representing the user's gender. Must be one of: 'male', 'female', or 'other'.
@@ -47,7 +47,7 @@ const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
  * - `emailVerified`: Boolean indicating whether the user's email is verified.
  */
 export const UserCreateSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   gender: z.enum(['male', 'female', 'other'], {
