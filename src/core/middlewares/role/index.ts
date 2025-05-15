@@ -1,9 +1,7 @@
 import { di } from '@core/di';
 import { Role } from '@shared/interfaces/role';
-import { NextFunction, Request, RequestHandler, Response } from 'express';
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = String(process.env.JWT_SECRET!);
+import { NextFunction, RequestHandler, Response } from 'express';
+import { AuthRequest } from '@core/middlewares/jwt/interfaces';
 
 /**
  * Service instance for retrieving a user by their ID.
@@ -25,18 +23,9 @@ const userGetByIdSvc = di.user.getByIdUserUseCase;
  * - If the user is an 'admin', allows access to all routes without role validation.
  */
 export function checkRoleMiddleware(allowedRoles: Role[]): RequestHandler {
-  return async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const token = req.headers.authorization?.split(' ')[1]; // Expected format: 'Bearer <token>'
-
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-    }
-
+  return async (req: AuthRequest, res: Response, next: NextFunction): Promise<any> => {
     try {
-      const decoded = await jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
-      const id = decoded.id as string;
-
-      const { role } = await userGetByIdSvc(id);
+      const { role } = await userGetByIdSvc(req.user!.id);
 
       if (!role) {
         return res.status(403).json({ message: 'User role not found' });

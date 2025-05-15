@@ -8,7 +8,7 @@ import PostRepository from "@posts/domain/repository";
  * @returns An asynchronous function that takes a post ID and returns the deleted PostEntity.
  */
 export const DeletePostUseCase = (postRepository: PostRepository) => {
-  return async (id: string): Promise<PostEntity> => {
-    return await postRepository.delete(id);
+  return async (id: string, token: string): Promise<PostEntity> => {
+    return await postRepository.delete(id, token);
   }
 }

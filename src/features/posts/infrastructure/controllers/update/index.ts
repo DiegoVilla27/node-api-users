@@ -1,7 +1,8 @@
 import { di } from "@core/di";
+import { AuthRequest } from "@core/middlewares/jwt/interfaces";
 import { PostEntity } from "@posts/domain/entities/post";
 import { handleError } from "@posts/infrastructure/errors";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { PostCreateSchema, PostIdParamSchema } from "./schema";
 
 /**
@@ -21,11 +22,12 @@ const postUpdateSvc = di.post.updatePostsUseCase;
  * 
  * @throws Will handle and respond with an error if the update process fails.
  */
-const updatePost = async (req: Request, res: Response) => {
+const updatePost = async (req: AuthRequest, res: Response): Promise<any> => {
   try {
     const { id } = PostIdParamSchema.parse(req.params);
     const postParsed = PostCreateSchema.parse(req.body) as PostEntity;
-    await postUpdateSvc(id, postParsed);
+
+    await postUpdateSvc(id, postParsed, req.user!.token);
 
     res.status(200).json({ message: 'Post updated successfully' });
   } catch (error) {

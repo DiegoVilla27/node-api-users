@@ -80,7 +80,8 @@ export class AuthRepositoryImpl implements AuthRepository {
     // Sign token with JWT
     const access_token = jwt.sign({
       id: loginSnapshot.id,
-      email: loginSnapshot.email
+      email: loginSnapshot.email,
+      role: loginSnapshot.role
     }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN
     });

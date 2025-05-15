@@ -36,17 +36,19 @@ export interface PostRepository {
    *
    * @param id - The unique identifier of the post to update.
    * @param post - The updated post entity data.
+   * @param token - Token of the user logged JWT.
    * @returns {Promise<void>} A promise resolving to the updated post entity.
    */
-  update(id: string, post: PostEntity): Promise<void>;
+  update(id: string, post: PostEntity, token: string): Promise<void>;
 
   /**
    * Deletes a post from the system.
    *
    * @param id - The unique identifier of the post to delete.
+   * @param token - Token of the user logged JWT.
    * @returns {Promise<PostEntity>} A promise resolving to the deleted post entity.
    */
-  delete(id: string): Promise<PostEntity>;
+  delete(id: string, token: string): Promise<PostEntity>;
 
   /**
    * Retrieves a post by their unique identifier.

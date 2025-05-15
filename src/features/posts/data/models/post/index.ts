@@ -6,6 +6,7 @@
  * @property {string} description - The description of the post.
  * @property {string} createDate - The create date of the post, stored as a string in ISO 8601 format.
  * @property {number} likes - The likes of the post.
+ * @property {string} idUser - The idUser of the user logged.
 */
 export class PostModel {
   id: string;
@@ -13,19 +14,22 @@ export class PostModel {
   description: string;
   createDate: string;
   likes: number;
+  idUser: string;
 
   constructor(
     id: string,
     title: string,
     description: string,
     createDate: string,
-    likes: number
+    likes: number,
+    idUser: string
   ) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.createDate = createDate;
     this.likes = likes;
+    this.idUser = idUser;
   }
 
   /**
@@ -45,6 +49,7 @@ export class PostModel {
    * - `description`: The post's description.
    * - `createDate`: The post's create date, formatted as a string (yyyy-MM-dd).
    * - `likes`: The post's likes.
+   * - `idUser` The idUser of the user logged.
    */
   toJSON(): object {
     return {
@@ -52,7 +57,8 @@ export class PostModel {
       title: this.title,
       description: this.description,
       createDate: this.createDate,
-      likes: this.likes
+      likes: this.likes,
+      idUser: this.idUser
     }
   }
 }

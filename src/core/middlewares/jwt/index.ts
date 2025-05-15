@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { AuthRequest } from './interfaces';
 
 const JWT_SECRET = String(process.env.JWT_SECRET!);
 
@@ -14,7 +15,7 @@ const JWT_SECRET = String(process.env.JWT_SECRET!);
  *
  * Usage: Attach this middleware to any route that requires authentication.
  */
-const authMiddleware = (req: Request, res: Response, next: NextFunction): any => {
+const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): any => {
   const token = req.headers.authorization?.split(' ')[1]; // Expected format: 'Bearer <token>'
 
   if (!token) {
@@ -22,7 +23,14 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction): any =>
   }
 
   try {
-    jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+    req.user = {
+      token,
+      id: decoded['id'],
+      role: decoded['role'],
+      email: decoded['email'],
+      ...decoded
+    };
 
     return next(); // Proceed to next middleware or route handler
   } catch (error) {

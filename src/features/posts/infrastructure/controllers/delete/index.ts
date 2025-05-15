@@ -1,6 +1,7 @@
+import { AuthRequest } from "@core/middlewares/jwt/interfaces";
 import { di } from "@core/di";
 import { handleError } from "@posts/infrastructure/errors";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { PostIdParamSchema } from "./schema";
 
 /**
@@ -23,10 +24,10 @@ const postDeleteSvc = di.post.deletePostsUseCase;
  * @throws Will handle errors using the handleError function, sending an appropriate
  * response with a status code and error message.
  */
-const deletePost = async (req: Request, res: Response) => {
+const deletePost = async (req: AuthRequest, res: Response): Promise<any> => {
   try {
     const { id } = PostIdParamSchema.parse(req.params);
-    const postRes = await postDeleteSvc(id);
+    const postRes = await postDeleteSvc(id, req.user!.token);
 
     res.status(200).json(postRes);
   } catch (error) {

@@ -8,6 +8,9 @@ import { PostEntity } from "@posts/domain/entities/post";
 import { PostResponseEntity } from "@posts/domain/entities/post_response";
 import PostRepository from "@posts/domain/repository";
 import { FieldValue } from 'firebase-admin/firestore';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = String(process.env.JWT_SECRET!);
 
 /**
  * Implementation of the PostRepository interface, providing methods to interact
@@ -39,7 +42,8 @@ export class PostRepositoryImpl implements PostRepository {
         data.title,
         data.description,
         data.createDate ?? '',
-        data.likes
+        data.likes,
+        data.idUser
       );
       posts.push(newPostModel);
     });
@@ -68,7 +72,8 @@ export class PostRepositoryImpl implements PostRepository {
       post.title,
       post.description,
       post.createDate ?? '',
-      0
+      0,
+      post.idUser
     ));
 
     await postRef.update({ id: postRef.id });
@@ -88,7 +93,8 @@ export class PostRepositoryImpl implements PostRepository {
       data.title,
       data.description,
       data.createDate ?? '',
-      0
+      data.likes,
+      data.idUser
     ));
   }
 
@@ -108,7 +114,9 @@ export class PostRepositoryImpl implements PostRepository {
    * @returns A promise that resolves to the updated.
    * @throws Will throw an error if the document does not exist or its data is missing after update.
    */
-  async update(id: string, post: PostEntity): Promise<void> {
+  async update(id: string, post: PostEntity, token: string): Promise<void> {
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+
     const postRef = await this.dataSource.update(id);
 
     const docSnapshot = await postRef.get();
@@ -117,8 +125,13 @@ export class PostRepositoryImpl implements PostRepository {
     }
 
     const data = docSnapshot.data();
+
     if (!data) {
       throw new Error('Failed to retrieve post data after update');
+    }
+
+    if (decoded['id'] !== data.idUser && decoded['role'] !== 'admin') {
+      throw new Error('Unauthorized');
     }
 
     post.likes = data.likes;
@@ -140,11 +153,17 @@ export class PostRepositoryImpl implements PostRepository {
    * @returns A promise that resolves to the deleted `PostEntity`, containing the post's last known state.
    * @throws Will throw an error if the document does not exist or its data is missing before deletion.
    */
-  async delete(id: string): Promise<PostEntity> {
+  async delete(id: string, token: string): Promise<PostEntity> {
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+
     const postRef = await this.getById(id);
 
     if (!postRef) {
       throw new Error(`Post "${id}" does not exist`);
+    }
+
+    if (decoded['id'] !== postRef.idUser && decoded['role'] !== 'admin') {
+      throw new Error('Unauthorized');
     }
 
     await this.dataSource.delete(id);
@@ -182,7 +201,8 @@ export class PostRepositoryImpl implements PostRepository {
       data.title,
       data.description,
       data.createDate ?? '',
-      data.likes
+      data.likes,
+      data.idUser
     ));
   }
 

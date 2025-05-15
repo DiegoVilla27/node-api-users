@@ -34,6 +34,7 @@ const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
  * - `title`: Required field for the post's title. Must be a non-empty string.
  * - `description`: Required field for the post's description. Must be a non-empty string.
  * - `createDate`: Date string in the format `yyyy-MM-dd`. Must be a valid date.
+ * - `idUser`: ID of the user logged.
  */
 export const PostCreateSchema = z.object({
   id: z.string(),
@@ -45,5 +46,6 @@ export const PostCreateSchema = z.object({
     .refine(
       (val) => !isNaN(Date.parse(val)),
       'Create date must be a valid date'
-    )
+    ),
+  idUser: z.string()
 });

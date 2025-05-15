@@ -8,7 +8,7 @@ import PostRepository from "@posts/domain/repository";
  * @returns An asynchronous function that takes a post ID and a PostEntity with the updated data
  */
 export const UpdatePostUseCase = (postRepository: PostRepository) => {
-  return async (id: string, post: PostEntity): Promise<void> => {
-    return await postRepository.update(id, post);
+  return async (id: string, post: PostEntity, token: string): Promise<void> => {
+    return await postRepository.update(id, post, token);
   }
 }
