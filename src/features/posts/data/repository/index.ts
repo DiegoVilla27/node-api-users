@@ -234,4 +234,26 @@ export class PostRepositoryImpl implements PostRepository {
 
     await postRef.update({ likes: FieldValue.increment(1) });
   }
+
+  /**
+   * Deletes all posts associated with a specific user ID from the data source.
+   *
+   * This method:
+   * - Retrieves all posts created by the user with the given ID.
+   * - Throws an error if no posts are found for that user.
+   * - Deletes each post document corresponding to the user.
+   *
+   * @param id - The ID of the user whose posts should be deleted.
+   * @returns A promise that resolves when all the user's posts have been deleted.
+   * @throws Will throw an error if no posts exist for the specified user ID.
+   */
+  async deleteByUser(id: string): Promise<void> {
+    const postsRef = await this.dataSource.getByUser(id);
+
+    if (postsRef.empty) {
+      throw new Error(`No posts found for user ${id}`);
+    }
+
+    await postsRef.docs.forEach((doc) => this.dataSource.delete(doc.id));
+  }
 }

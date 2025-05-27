@@ -13,6 +13,7 @@ import { PostResponseEntity } from "@posts/domain/entities/post_response";
  * - `create`: Creates a new post in the system.
  * - `update`: Updates the details of an existing post by ID.
  * - `delete`: Deletes a post from the system by ID.
+ * - `deleteByUser`: Deletes a post from the system by user ID.
  * - `getById`: Retrieves a post by their unique identifier.
  */
 export interface PostRepository {
@@ -49,6 +50,14 @@ export interface PostRepository {
    * @returns {Promise<PostEntity>} A promise resolving to the deleted post entity.
    */
   delete(id: string, token: string): Promise<PostEntity>;
+
+  /**
+   * Deletes a post associated with the given user.
+   *
+   * @param id - The unique identifier of the post to delete.
+   * @returns {Promise<void>} A promise that resolves when the deletion is complete.
+   */
+  deleteByUser(id: string): Promise<void>;
 
   /**
    * Retrieves a post by their unique identifier.

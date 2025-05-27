@@ -11,6 +11,7 @@ import { UserIdParamSchema } from "./schema";
  * ensuring any domain-level validations or side effects are handled appropriately.
  */
 const userDeleteSvc = di.user.deleteUsersUseCase;
+const deletePostsByUserSvc = di.post.getPostsByUserUseCase;
 
 /**
  * Deletes a user based on the provided ID in the request parameters.
@@ -27,6 +28,7 @@ const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = UserIdParamSchema.parse(req.params);
     const userRes = await userDeleteSvc(id);
+    await deletePostsByUserSvc(id);
 
     res.status(200).json(userRes);
   } catch (error) {

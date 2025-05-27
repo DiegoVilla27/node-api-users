@@ -1,7 +1,7 @@
 import db from "@core/database/firebase";
 import { PostModel } from "@posts/data/models/post";
 
-const COLLECTION_USER: string = "posts";
+const COLLECTION_POSTS: string = "posts";
 
 /**
  * Interface for interacting with the Firebase Firestore data source for post-related operations.
@@ -96,6 +96,19 @@ export interface PostApiDataSource {
    *          A promise that resolves with the reference of the updated post document.
    */
   updateById(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
+
+  /**
+   * Retrieves all post documents created by a specific user from Firestore.
+   * 
+   * This method queries the data source for all posts where the author/user ID matches the provided `id`.
+   * It returns a `QuerySnapshot` containing all matching post documents.
+   * 
+   * @param {string} id - The ID of the user whose posts are to be retrieved.
+   * 
+   * @returns {Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData>>} 
+   *          A promise that resolves with a QuerySnapshot of all posts created by the specified user.
+   */
+  getByUser(id: string): Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>;
 }
 
 /**
@@ -126,7 +139,7 @@ export class PostApiDataSourceImpl implements PostApiDataSource {
    *          A promise that resolves with a `QuerySnapshot` containing all post documents from the Firestore database.
    */
   async get(): Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
-    const snapshot = await db.collection(COLLECTION_USER).get();
+    const snapshot = await db.collection(COLLECTION_POSTS).get();
     return snapshot;
   }
 
@@ -143,7 +156,7 @@ export class PostApiDataSourceImpl implements PostApiDataSource {
    *          A promise that resolves with a `DocumentReference` of the newly created post document in Firestore.
    */
   async create(post: PostModel): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
-    const snapshot = await db.collection(COLLECTION_USER).add(post.toJSON());
+    const snapshot = await db.collection(COLLECTION_POSTS).add(post.toJSON());
     return snapshot;
   }
 
@@ -159,7 +172,7 @@ export class PostApiDataSourceImpl implements PostApiDataSource {
    *          A promise that resolves with a `DocumentReference` to the post document in Firestore.
    */
   async update(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
-    const snapshot = await db.collection(COLLECTION_USER).doc(id);
+    const snapshot = await db.collection(COLLECTION_POSTS).doc(id);
     return snapshot;
   }
 
@@ -175,7 +188,7 @@ export class PostApiDataSourceImpl implements PostApiDataSource {
    *          A promise that resolves with a `WriteResult` object containing the result of the delete operation.
    */
   async delete(id: string): Promise<FirebaseFirestore.WriteResult> {
-    const snapshot = await db.collection(COLLECTION_USER).doc(id).delete();
+    const snapshot = await db.collection(COLLECTION_POSTS).doc(id).delete();
     return snapshot;
   }
 
@@ -191,7 +204,7 @@ export class PostApiDataSourceImpl implements PostApiDataSource {
    *          A promise that resolves with a `DocumentSnapshot` containing the post document data.
    */
   async getById(id: string): Promise<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>> {
-    const snapshot = await db.collection(COLLECTION_USER).doc(id).get();
+    const snapshot = await db.collection(COLLECTION_POSTS).doc(id).get();
     return snapshot;
   }
 
@@ -207,7 +220,23 @@ export class PostApiDataSourceImpl implements PostApiDataSource {
    *          A promise that resolves with a `DocumentReference` to the post document in Firestore.
    */
   async updateById(id: string): Promise<FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
-    const snapshot = await db.collection(COLLECTION_USER).doc(id);
+    const snapshot = await db.collection(COLLECTION_POSTS).doc(id);
     return snapshot;
+  }
+
+  /**
+   * Retrieves all post documents created by a specific user from Firestore.
+   * 
+   * This method queries the `COLLECTION_POSTS` collection for documents where the `idUser` field
+   * matches the provided user ID. It returns a `QuerySnapshot` containing all matching post documents.
+   * 
+   * @param {string} id - The ID of the user whose posts are to be retrieved.
+   * 
+   * @returns {Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData>>} 
+   *          A promise that resolves with a `QuerySnapshot` of posts authored by the specified user.
+   */
+  async getByUser(id: string): Promise<FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>> {
+    const postsRef = db.collection(COLLECTION_POSTS).where('idUser', '==', id);
+    return await postsRef.get();
   }
 }

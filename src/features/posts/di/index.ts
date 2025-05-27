@@ -7,6 +7,7 @@ import { GetPostsUseCase } from "@posts/domain/usecases/get";
 import { GetByIdPostUseCase } from "@posts/domain/usecases/get_by_id";
 import { LikePostUseCase } from "@posts/domain/usecases/like";
 import { UpdatePostUseCase } from "@posts/domain/usecases/update";
+import { DeleteByUserUseCase } from "../domain/usecases/delete_by_user";
 
 /**
  * Instance of the post API data source.
@@ -100,4 +101,14 @@ export const diPosts = {
    * - Returns the updated post or success status.
    */
   likePostsUseCase: LikePostUseCase(postRepository),
+
+  /**
+   * Use case responsible for deleting posts by a specific user ID.
+   * 
+   * This use case:
+   * - Accepts a user ID as input.
+   * - Delegates the deletion operation to the post repository.
+   * - Returns a promise that resolves when all posts of the user have been deleted.
+   */
+  getPostsByUserUseCase: DeleteByUserUseCase(postRepository),
 };
